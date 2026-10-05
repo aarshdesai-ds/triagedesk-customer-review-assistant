@@ -1,0 +1,16 @@
+{
+    "name": null,
+    "input_variables": [
+        "policy",
+        "review"
+    ],
+    "optional_variables": [],
+    "output_parser": null,
+    "partial_variables": {},
+    "metadata": null,
+    "tags": null,
+    "template": "Write an appropriate response to this negative review and the company policy. Apologize for each specific issue the customer described, explain next steps using only the policy, and don't promise anything the policy doesn't say. Address the reply directly to the customer. Only mention steps that appear in the policy text. Sign off as Customer Support Team. The policy text may contain several help articles. Use only the parts relevant to this review. \n Review: {review} \n Policy: {policy}",
+    "template_format": "f-string",
+    "validate_template": false,
+    "_type": "prompt"
+}

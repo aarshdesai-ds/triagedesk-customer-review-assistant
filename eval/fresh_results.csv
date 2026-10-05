@@ -1,0 +1,125 @@
+id,group,review,acceptable_sentiments,expected_product,expected_escalate,acceptable_sources,expected_reviewer,got_product,got_sentiment,got_urgency,got_reviewer,got_escalate,got_sources,got_issues,got_reply,sentiment_ok,product_ok,escalate_ok,source_ok,reviewer_ok,error
+F01,fresh_should_escalate,"Yesterday the blade assembly on my AeroBlend 500 Blender came loose while it was running and the glass jar shattered across the counter. My daughter was standing right beside it. Nobody was cut, thankfully, but I am quite shaken. - Deepa Menon",negative,aeroblend,True,null,Deepa,AeroBlend 500 Blender,negative,high,Deepa Menon,True,troubleshooting.md | returns.md,blade assembly came loose | glass jar shattered,"Dear Deepa Menon,
+
+Thank you for taking the time to share your experience with us. We sincerely apologize for the incident involving your AeroBlend 500 Blender. We understand how unsettling it must have been for you and your daughter, and we are relieved to hear that no one was injured.
+
+To address the issue with the blade assembly and the shattered glass jar, we recommend that you report this as a damaged or defective item within 48 hours of the incident. Please provide us with photos of the blender and the damaged jar, as this will help us expedite the process. If stock is available, we will arrange for a free replacement; otherwise, we will issue a full refund.
+
+Please reach out to our customer support team with the necessary details, and we will assist you further.
+
+Thank you for your understanding.
+
+Sincerely,  
+Customer Support Team",True,True,True,,True,
+F02,fresh_should_escalate,"Hello, I think there has been a mistake with my order. My bank statement shows that I was charged Rs. 18,999 twice for one PixelView 27 Monitor. Could someone please look into this when they get a chance? Thank you.",negative | mixed,pixelview,True,null,,PixelView 27 Monitor,mixed,medium,,False,shipping.md | returns.md | troubleshooting.md,charged twice for one monitor,"Dear Customer,
+
+Thank you for reaching out and for your positive note regarding your order. We appreciate your support and are glad to hear you chose the PixelView 27 Monitor.
+
+I understand your concern about being charged twice for your order. To assist you further, I recommend checking your order confirmation email for any discrepancies. If you still believe there has been an error, please provide us with your order number, and we will investigate this matter promptly.
+
+Thank you for your patience, and we look forward to resolving this issue for you.
+
+Best regards,  
+Customer Support Team",True,True,False,,True,
+F03,fresh_should_escalate,"My TrailMate Backpack never turned up. I have written to you four times since the start of last month and phoned twice, and every time I am told somebody will get back to me. Nobody has.",negative,trailmate,True,null,,TrailMate Backpack,negative,high,,True,shipping.md | returns.md | warranty.md,Product never turned up | Lack of response from customer support,"Dear Customer,
+
+We sincerely apologize for the inconvenience you've experienced with your TrailMate Backpack not arriving and for the lack of communication from our team. We understand how frustrating this situation must be for you, and we appreciate your patience.
+
+As per our policy, if your order has not been delivered within 10 business days of dispatch, you qualify for a refund of the delivery fee or you can choose to cancel the order for a full refund. We recommend checking the My Orders page to track your order status, as this may provide additional information regarding its delivery.
+
+To resolve this issue, please reply to this message with your order details, and we will ensure that your request is processed promptly. 
+
+Thank you for bringing this to our attention, and we are here to assist you further.
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+F04,fresh_should_escalate,"After two days of wearing the SoundLoop Earbuds, both my ears became swollen and painful with a rash where the tips sit. I had to see a doctor, who told me to stop using them. I am not sure what material the tips are made of. - Nikhil",negative,soundloop,True,null,Nikhil,SoundLoop Earbuds,negative,high,Nikhil,True,returns.md | troubleshooting.md,ears became swollen | painful rash | had to see a doctor,"Dear Nikhil,
+
+We are truly sorry to hear about your experience with the SoundLoop Earbuds. We understand how uncomfortable and concerning it must be to deal with swelling and a rash, and we sincerely apologize for any distress this has caused you.
+
+Regarding your concerns about the material of the tips, we recommend checking the product specifications on our website or contacting our customer support for more detailed information.
+
+As for the earbuds, our policy allows for returns of opened headphones and earbuds within 14 days of delivery for hygiene reasons. Since you mentioned that you experienced issues after two days, you are still within the return window. If you would like to initiate a return, please reach out to our customer support team with your order details, and we will guide you through the process.
+
+Thank you for bringing this to our attention, and we hope to resolve this matter for you promptly.
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+F05,fresh_should_escalate,"I really like the AeroBlend 500 Blender. It is powerful, easy to clean and looks great in my kitchen. One thing I should mention: last week I got a small electric shock from the base when I touched it with damp hands. It has been fine since, so overall I am still happy with it. - Ritu",mixed | positive | negative,aeroblend,True,null,Ritu,AeroBlend 500 Blender,mixed,medium,Ritu,False,troubleshooting.md | shipping.md | warranty.md,small electric shock from the base when touched with damp hands,"Dear Ritu,
+
+Thank you for your feedback! We're thrilled to hear that you love the AeroBlend 500 Blender and find it powerful, easy to clean, and visually appealing in your kitchen.
+
+However, we take your report of experiencing a small electric shock very seriously. While it’s great to know that the blender has been functioning well since then, we recommend that you stop using the blender immediately if you encounter any further issues. For your safety, please consider raising a warranty claim if you experience any persistent problems, as all electronics are covered for hardware faults under our warranty policy.
+
+If you have any further questions or need assistance with the warranty process, please don't hesitate to reach out.
+
+Best regards,  
+Customer Support Team",True,True,False,,True,
+F06,fresh_should_not_escalate,"ABSOLUTELY RIDICULOUS!!! The box my BreezeMax Tower Fan came in had a big dent in one corner. The fan itself works, but is this how you treat your customers' orders?!",negative | mixed,breezemax,False,null,,BreezeMax Tower Fan,negative,medium,,False,returns.md,The box had a big dent in one corner,"Dear Customer,
+
+Thank you for your feedback, and I sincerely apologize for the inconvenience you experienced with the dented box of your BreezeMax Tower Fan. We understand how important it is for our customers to receive their orders in perfect condition, and we regret that this was not the case for you.
+
+To address the issue of the damaged packaging, please report the damaged item within 48 hours of delivery, along with photos of the damage. If the fan is deemed defective or damaged, we can offer you a free replacement if stock is available, or a full refund if it is not.
+
+Please let us know how you would like to proceed, and we will assist you with the next steps.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+F07,fresh_should_not_escalate,"I want to speak to a manager. The VoltCharge 20W Charger I received is off-white, and on your website it is clearly shown as pure white. - Mrs. Kapoor",negative,voltcharge,False,null,Kapoor,VoltCharge 20W Charger,negative,medium,Mrs. Kapoor,False,troubleshooting.md | shipping.md | returns.md,The charger received is off-white instead of pure white as shown on the website.,"Dear Mrs. Kapoor,
+
+Thank you for your feedback, and I sincerely apologize for the inconvenience you've experienced with the VoltCharge 20W Charger. I understand how disappointing it can be to receive an item that does not match your expectations based on our website's description.
+
+To address your concern regarding the color discrepancy, I recommend that you report this issue as a potentially defective item. Please ensure to do so within 48 hours of delivery and include photos of the charger. If the item is confirmed to be defective and stock is available, we will be able to provide you with a free replacement. If not, a full refund will be issued.
+
+If you would like to proceed with this process, please reply with the necessary details, and we will assist you further.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+F08,fresh_should_not_escalate,"There is one dead pixel in the bottom corner of my PixelView 27 Monitor. It is small, but I notice it on a white background. I would like to exchange it if that is possible.",negative | mixed,pixelview,False,null,,PixelView 27 Monitor,mixed,medium,,False,returns.md | warranty.md,one dead pixel,"Dear Customer,
+
+Thank you for your feedback! We're glad to hear that you are enjoying your PixelView 27 Monitor overall. However, we’re sorry to learn about the dead pixel issue you’ve encountered.
+
+To address this, please report the defective item within 48 hours of delivery and provide us with photos of the issue. If stock is available, we can offer you a free replacement. If not, we will issue a full refund. Please ensure that the monitor includes all original accessories and packaging, as items with physical damage caused by the customer are not eligible for return.
+
+We appreciate your understanding and look forward to resolving this for you.
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+F09,fresh_should_not_escalate,"I have used the TrailMate Backpack on three weekend hikes now. The padding is excellent, it sits well on my back and the side pockets fit a one-litre bottle. The little pull tab on the front zip came off on the second trip, which was a shame, but the zip still works. - Aditya",mixed | positive,trailmate,False,null,Aditya,TrailMate Backpack,mixed,low,Aditya,False,troubleshooting.md | returns.md,The little pull tab on the front zip came off,"Dear Aditya,
+
+Thank you for your feedback! We're thrilled to hear that you are enjoying the padding and fit of the TrailMate Backpack, as well as the convenient side pockets for your water bottle.
+
+We’re sorry to learn about the issue with the pull tab on the front zip. While we’re glad the zip is still functional, we want to ensure you have a fully satisfactory experience with our product. If you believe the pull tab is a defect, please report it within 48 hours of your last hike, along with a photo of the issue. If the item is deemed defective, we can offer you a free replacement if stock is available, or a full refund otherwise.
+
+Thank you for bringing this to our attention, and we look forward to resolving this for you!
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+F10,fresh_hard_to_call,My father is 78 and depends on his BreezeMax Tower Fan in this heat. It stopped working after three days. Is there any way to get this sorted out quickly for him?,negative,breezemax,,null,,BreezeMax Tower Fan,negative,high,,True,troubleshooting.md | returns.md,stopped working after three days,"Dear Customer,
+
+Thank you for reaching out to us regarding your father's BreezeMax Tower Fan. We sincerely apologize for the inconvenience caused by the fan stopping working after just three days, especially given the current heat conditions.
+
+To address this issue, we recommend that you first check if the fan is charging properly. Please ensure that you are using the original cable and a charger rated at least 10W, as damage from third-party chargers is not covered by our warranty.
+
+If the fan is still not functioning, please report the issue as a defective item within 48 hours of delivery. We will need photos of the fan to process your request. If stock is available, we can provide a free replacement; otherwise, a full refund will be issued.
+
+We appreciate your understanding and are here to assist you further.
+
+Best regards,  
+Customer Support Team",True,True,,,True,
+F11,fresh_hard_to_call,"This is the third time I have ordered from you and the third time something small has been wrong. This time the VoltCharge 20W Charger came without its instruction leaflet. It is not a disaster, but it does make me wonder.",negative | mixed,voltcharge,,null,,VoltCharge 20W Charger,mixed,low,,False,troubleshooting.md | warranty.md | shipping.md,came without its instruction leaflet,"Dear Customer,
+
+Thank you for your continued support and for sharing your feedback with us. We’re glad to hear that you have chosen to order from us multiple times, and we appreciate your positive experiences.
+
+We apologize for the inconvenience caused by the missing instruction leaflet for the VoltCharge 20W Charger. While we strive to ensure that all products are delivered complete, we understand that this oversight can be frustrating. Unfortunately, we do not have a specific policy regarding missing instruction leaflets, but we recommend checking our troubleshooting guide for any immediate assistance with your charger.
+
+If you have any further concerns or if there’s anything else we can assist you with, please feel free to reach out. We value your feedback and are here to help.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,,,True,

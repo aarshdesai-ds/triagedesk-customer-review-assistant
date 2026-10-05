@@ -1,0 +1,497 @@
+id,group,review,acceptable_sentiments,expected_product,expected_escalate,acceptable_sources,expected_reviewer,got_product,got_sentiment,got_urgency,got_reviewer,got_escalate,got_sources,got_issues,got_reply,sentiment_ok,product_ok,escalate_ok,source_ok,reviewer_ok,error
+U01,urgent_complaint,I ordered the AeroBlend 500 blender three weeks ago. It arrived with a cracked jar and the motor smells like burning plastic after two uses. I want my money back. - Priya S.,negative,aeroblend,True,"[""returns.md"", ""troubleshooting.md""]",Priya,AeroBlend 500 blender,negative,high,Priya S.,True,troubleshooting.md | returns.md,cracked jar | motor smells like burning plastic,"Dear Priya S.,
+
+Thank you for your feedback, and I sincerely apologize for the issues you experienced with your AeroBlend 500 blender. I understand how frustrating it must be to receive a product that is not in perfect condition.
+
+I’m sorry to hear that the jar arrived cracked and that you noticed a burning smell from the motor after just two uses. According to our policy, a strong burning smell after initial use indicates that the motor may be faulty, and we recommend stopping use immediately. 
+
+To address the cracked jar and the motor issue, please report these defects within 48 hours of delivery, along with photos of the damage. If stock is available, we can provide a free replacement; otherwise, you will be eligible for a full refund.
+
+Please let us know how you would like to proceed, and we will assist you with the next steps.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+U02,urgent_complaint,My PixelView 27 Monitor started sparking at the power port last night and there was smoke. This is a fire hazard in my home. I need someone to call me today. - Rohan Mehta,negative,pixelview,True,"[""warranty.md"", ""returns.md""]",Rohan,PixelView 27 Monitor,negative,high,Rohan Mehta,True,troubleshooting.md | returns.md,sparking at the power port | smoke | fire hazard,"Dear Rohan Mehta,
+
+We sincerely apologize for the issues you've experienced with your PixelView 27 Monitor. We understand that sparking and smoke from the power port can be alarming and poses a serious safety concern. Your safety is our top priority, and we take such matters very seriously.
+
+To address this issue, we recommend that you stop using the monitor immediately to prevent any further risk. As per our policy, if you believe the monitor is damaged or defective, please report this within 48 hours of the incident and provide us with photos of the monitor. This will help us assess the situation more effectively.
+
+Once we receive your report and the necessary documentation, we will be able to process a free replacement if stock is available, or a full refund if it is not.
+
+Thank you for bringing this to our attention, and we appreciate your understanding as we work to resolve this matter.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+U03,urgent_complaint,The VoltCharge 20W Charger got so hot overnight that it melted part of the plug and left a burn mark on my desk. This is dangerous and completely unacceptable. I want a refund immediately.,negative,voltcharge,True,"[""warranty.md"", ""returns.md"", ""troubleshooting.md""]",,VoltCharge 20W Charger,negative,high,,True,troubleshooting.md | returns.md,got too hot | melted part of the plug | left a burn mark on the desk | dangerous | unacceptable,"Dear Customer,
+
+We sincerely apologize for the issues you experienced with your VoltCharge 20W Charger. It is concerning to hear that it got excessively hot and caused damage to your desk. Your safety is our top priority, and we take such matters very seriously.
+
+To address your situation, we kindly ask that you report the damaged item within 48 hours of delivery, along with photos of the charger and the damage it caused. This will allow us to process your claim efficiently. If the item is confirmed to be defective, we can offer you a full refund or a free replacement if stock is available.
+
+Please reach out to our customer support team with the necessary information, and we will assist you further.
+
+Thank you for bringing this to our attention.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+U04,urgent_complaint,"I paid Rs. 18,999 for a PixelView 27 Monitor more than three weeks ago and it still has not arrived. I have contacted support three times with no reply. If I do not hear back by tomorrow I am filing a consumer complaint. - Anjali Rao",negative,pixelview,True,"[""shipping.md""]",Anjali,PixelView 27 Monitor,negative,high,Anjali Rao,True,shipping.md | returns.md,Order not arrived | No response from support,"Dear Anjali Rao,
+
+We sincerely apologize for the inconvenience you've experienced with your order for the PixelView 27 Monitor. We understand how frustrating it can be to wait for an item, especially when you have reached out for support without receiving a response.
+
+According to our policy, if your order has not been delivered within 10 business days of dispatch, you are eligible for a full refund of the delivery fee, and you can also choose to cancel your order for a full refund. We recommend checking the My Orders page to track your order status.
+
+We appreciate your patience and understanding in this matter. If you do not receive your order soon, please let us know, and we will assist you further in processing a cancellation or refund as per our policy.
+
+Thank you for bringing this to our attention, and we hope to resolve this issue for you promptly.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+U05,urgent_complaint,"This is the THIRD pair of SoundLoop Earbuds you have sent me and they have failed again within a week. I am furious. I want a full refund right now, not another replacement, and I will be telling everyone I know to avoid this store.",negative,soundloop,True,"[""returns.md"", ""warranty.md"", ""troubleshooting.md""]",,SoundLoop Earbuds,negative,high,,True,returns.md | troubleshooting.md,failed within a week | request for a full refund,"Dear Customer,
+
+We sincerely apologize for the frustration you've experienced with your SoundLoop Earbuds. We understand how disappointing it can be to receive multiple defective products, and we appreciate you bringing this to our attention.
+
+According to our policy, opened earbuds can only be returned within 14 days of delivery for hygiene reasons. Since you have received three pairs, we recommend that you report the most recent pair as defective within 48 hours of delivery, along with any photos of the issue. If the item is confirmed as defective, we can process a full refund for you, provided that stock is available.
+
+Please follow these steps to initiate the return process, and we will do our best to resolve this matter promptly.
+
+Thank you for your understanding, and we hope to assist you further.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+U06,urgent_complaint,"The base of the BreezeMax Tower Fan cracked after ten days and the whole fan toppled over while it was running, right next to where my toddler plays. Someone could have been hurt. I need this resolved urgently. - Farah K.",negative,breezemax,True,"[""returns.md"", ""warranty.md""]",Farah,BreezeMax Tower Fan,negative,high,Farah K.,True,returns.md | troubleshooting.md,base cracked | fan toppled over,"Dear Farah K.,
+
+We sincerely apologize for the issues you experienced with your BreezeMax Tower Fan. We understand how concerning it is for a product to malfunction, especially with a toddler nearby, and we take your safety seriously.
+
+To address the cracked base of your fan, we kindly ask you to report this issue within 48 hours of delivery, along with any photos of the damage. If stock is available, we can provide you with a free replacement; otherwise, a full refund will be issued.
+
+Please follow these steps to initiate the process:
+1. Gather photos of the damaged fan.
+2. Contact our customer support team with the details and photos.
+
+We appreciate your understanding and look forward to resolving this matter for you as quickly as possible.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+U07,urgent_complaint,"I returned my AeroBlend 500 Blender over four weeks ago and your warehouse confirmed they received it. I still have not got my refund of Rs. 3,999. I have emailed twice and been ignored. This is my money and I need it back now.",negative,aeroblend,True,"[""returns.md""]",,AeroBlend 500 Blender,negative,high,,True,returns.md | troubleshooting.md | shipping.md,Refund not received | Ignored emails,"Dear Customer,
+
+Thank you for reaching out and sharing your concerns regarding your return and refund for the AeroBlend 500 Blender. We sincerely apologize for the delay in processing your refund of Rs. 3,999 and for the lack of response to your previous emails. We understand how frustrating this situation must be for you.
+
+According to our policy, refunds are processed back to the original payment method within 5-7 business days after the returned item is received at our warehouse. Since you mentioned that your return was confirmed over four weeks ago, it appears that there has been an unexpected delay in processing your refund.
+
+To resolve this issue, we recommend that you check the status of your refund through the My Orders page. If you still do not see the refund reflected in your account, please reach out to us again, and we will ensure that your case is prioritized.
+
+We appreciate your patience and understanding as we work to rectify this situation.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+U08,urgent_complaint,"The shoulder strap of the TrailMate Backpack snapped on the second day of a trek and my laptop fell and broke. I expect compensation for the laptop as well as the bag, and I am ready to take legal action. - Vikram Shetty",negative,trailmate,True,"[""returns.md"", ""warranty.md""]",Vikram,TrailMate Backpack,negative,high,Vikram Shetty,True,returns.md | warranty.md,shoulder strap snapped | laptop fell and broke,"Dear Vikram Shetty,
+
+We sincerely apologize for the inconvenience you experienced with the shoulder strap of your TrailMate Backpack. We understand how frustrating it must be to have your laptop damaged as a result. 
+
+To address the issue with your backpack, please report the damaged item within 48 hours of delivery, along with photos of the damage. If stock is available, we can provide you with a free replacement; otherwise, a full refund will be issued. Additionally, return pickup for the damaged item will be free of charge.
+
+Regarding your laptop, we regret to inform you that our policy does not cover compensation for personal items. We recommend checking your personal insurance policy for coverage options.
+
+Please let us know how you would like to proceed with the return of the backpack, and we will assist you accordingly.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+R01,routine_complaint,The SoundLoop Earbuds keep disconnecting from my phone every few minutes. It is quite annoying on calls.,negative,soundloop,False,"[""troubleshooting.md""]",,SoundLoop Earbuds,negative,high,,True,troubleshooting.md | returns.md,disconnecting from phone | annoying on calls,"Dear Customer,
+
+Thank you for your feedback regarding the SoundLoop Earbuds. We sincerely apologize for the inconvenience you’ve experienced with the earbuds disconnecting from your phone during calls. We understand how frustrating this can be.
+
+To address the disconnection issue, we recommend resetting the earbuds by holding both buttons for 10 seconds and then re-pairing them with your device. If the problem persists after trying this reset, you may need to file a warranty claim.
+
+If you prefer to return the earbuds, please note that opened headphones and earbuds can only be returned within 14 days of delivery for hygiene reasons. If you are within this timeframe, we can assist you with the return process.
+
+Thank you for your understanding, and we hope to resolve this issue for you soon.
+
+Best regards,  
+Customer Support Team",True,True,False,True,True,
+R02,routine_complaint,The zip on the TrailMate Backpack is stiff and the colour is duller than in the pictures. A bit disappointed with it. - Neha,negative,trailmate,False,"[""returns.md""]",Neha,TrailMate Backpack,negative,medium,Neha,False,returns.md | shipping.md,zip is stiff | colour is duller than in the pictures,"Dear Neha,
+
+Thank you for your feedback, and I sincerely apologize for the issues you've experienced with your TrailMate Backpack. I understand how disappointing it can be when a product does not meet your expectations, especially regarding the zip being stiff and the color not matching the images.
+
+To address the stiff zip, if you believe the item is defective, please report this within 48 hours of delivery and provide photos. If the item is confirmed as defective and stock is available, we can offer you a free replacement. If not, a full refund will be processed.
+
+Regarding the color discrepancy, while we strive to accurately represent our products, we understand that this can sometimes lead to disappointment. If you would like to return the item, please let us know, and we can arrange a free return pickup for you.
+
+Please reach out to us with the necessary details, and we will assist you further.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+R03,routine_complaint,Delivery of my BreezeMax Tower Fan to Mumbai took 9 days when the site said 3 to 5. Not happy with the wait.,negative,breezemax,False,"[""shipping.md""]",,BreezeMax Tower Fan,negative,medium,,False,shipping.md,Delivery took longer than expected,"Dear Customer,
+
+Thank you for your feedback regarding the delivery of your BreezeMax Tower Fan. We sincerely apologize for the delay you experienced, as we understand that waiting longer than expected can be frustrating. Our standard delivery time for metro cities is typically 3-5 business days, and we regret that your order took 9 days to arrive.
+
+If your order was not delivered within 10 business days of dispatch, you are eligible for a refund of the delivery fee. Additionally, if you wish to cancel your order due to the delay, we can process a full refund for you.
+
+To proceed with either of these options, please visit the My Orders page to initiate the request. 
+
+We appreciate your understanding and hope to serve you better in the future.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+R04,routine_complaint,The VoltCharge 20W Charger charges my phone much more slowly than I expected. Underwhelming for the price.,negative,voltcharge,False,"[""troubleshooting.md"", ""warranty.md""]",,VoltCharge 20W Charger,negative,medium,,False,troubleshooting.md | shipping.md,charges my phone much more slowly than I expected | underwhelming for the price,"Dear Customer,
+
+Thank you for your feedback regarding the VoltCharge 20W Charger. We sincerely apologize for the slow charging experience you have encountered. We understand how frustrating this can be, especially when expectations are not met.
+
+To address the charging issue, we recommend ensuring that you are using the original cable that came with the charger, as using third-party cables can affect performance. If you continue to experience slow charging, please refer to our troubleshooting guide for further assistance.
+
+If you feel that the product is not meeting your expectations, you may consider returning it according to our return policy. Please let us know if you would like to initiate a return, and we will guide you through the process.
+
+Thank you for bringing this to our attention, and we appreciate your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+R05,routine_complaint,The BreezeMax Tower Fan is much louder than I expected at the top speed. I would like to return it. - Suresh P.,negative,breezemax,False,"[""returns.md""]",Suresh,BreezeMax Tower Fan,negative,high,Suresh P.,True,troubleshooting.md | returns.md,louder than expected | want to return,"Dear Suresh P.,
+
+Thank you for your feedback regarding the BreezeMax Tower Fan. We sincerely apologize for the inconvenience caused by the noise level at the top speed. We understand how important it is for our products to meet your expectations.
+
+If you would like to proceed with a return, please note that most items can be returned within 30 days of delivery. Since you mentioned wanting to return the fan, we encourage you to initiate the return process as soon as possible.
+
+For your return, if the fan is found to be damaged or defective, return pickup will be free of charge. However, if the return is due to a change of mind, a flat Rs. 99 fee will be deducted from your refund.
+
+Please let us know how you would like to proceed, and we will assist you with the next steps.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,False,True,True,
+R06,routine_complaint,"I was charged Rs. 49 for delivery on my VoltCharge 20W Charger. I thought delivery was meant to be free. Not a big amount, but it felt misleading.",negative,voltcharge,False,"[""shipping.md""]",,VoltCharge 20W Charger,negative,low,,False,shipping.md | returns.md,charged for delivery when it was expected to be free | misleading charge,"Dear Customer,
+
+Thank you for your feedback regarding the delivery charge for your VoltCharge 20W Charger. We sincerely apologize for any confusion this may have caused. 
+
+To clarify, standard delivery is free for orders above Rs. 999. Since your order was below this threshold, a delivery fee of Rs. 49 was applied. We understand how this might feel misleading, and we appreciate your understanding of our policy.
+
+If you have any further questions or concerns, please feel free to reach out to us. We are here to assist you.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+R07,routine_complaint,"The lid of the AeroBlend 500 Blender does not sit tightly, so it leaks a little when I blend anything thin. Not what I expected.",negative,aeroblend,False,"[""returns.md"", ""warranty.md"", ""troubleshooting.md""]",,AeroBlend 500 Blender,negative,medium,,False,troubleshooting.md | returns.md,lid does not sit tightly | leaks when blending thin items,"Dear Customer,
+
+Thank you for your feedback regarding the AeroBlend 500 Blender. We sincerely apologize for the inconvenience you’ve experienced with the lid not sitting tightly and causing leaks. This is not the quality we strive for, and we understand how disappointing this can be.
+
+To address this issue, we recommend that you report the defective item within 48 hours of delivery. Please provide us with photos of the blender and the lid so we can assess the situation. If the item is confirmed to be defective, we will be able to offer you a free replacement if stock is available, or a full refund otherwise.
+
+We appreciate your understanding and look forward to resolving this matter for you.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+M01,mixed,"I love the sound quality of the SoundLoop Earbuds, but the charging case scratches very easily. - Kabir",mixed,soundloop,False,null,Kabir,SoundLoop Earbuds,mixed,low,Kabir,False,troubleshooting.md | returns.md,charging case scratches easily,"Dear Kabir,
+
+Thank you for your feedback! We're thrilled to hear that you love the sound quality of the SoundLoop Earbuds. Your satisfaction is important to us.
+
+We understand your concern regarding the charging case scratching easily. While we strive to provide high-quality products, we recognize that wear and tear can occur. If you believe the scratches are due to a manufacturing defect, we encourage you to file a warranty claim. 
+
+Please note that if you are considering a return, opened earbuds can only be returned within 14 days of delivery for hygiene reasons. If you have any further questions or need assistance with the warranty process, feel free to reach out.
+
+Thank you for being a valued customer!
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+M02,mixed,"The picture on the PixelView 27 Monitor is excellent and setup was easy. It did arrive four days later than promised, though.",mixed,pixelview,False,"[""shipping.md""]",,PixelView 27 Monitor,mixed,low,,False,returns.md | shipping.md,arrived four days later than promised,"Dear Customer,
+
+Thank you for your feedback! We're thrilled to hear that you found the picture quality of the PixelView 27 Monitor excellent and that the setup process was easy for you.
+
+We apologize for the delay in delivery, which is not the experience we aim to provide. As per our policy, since your order arrived four days later than promised, you qualify for a refund of the delivery fee. If you would like to proceed with this, please let us know, and we will assist you with the process.
+
+Thank you for your understanding, and we appreciate your support.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+M03,mixed,"The AeroBlend 500 Blender is powerful and crushes ice easily. It is very noisy though, and there was a slight burning smell the first time I used it.",mixed,aeroblend,False,"[""troubleshooting.md""]",,AeroBlend 500 Blender,mixed,medium,,False,troubleshooting.md | returns.md,noisy | slight burning smell,"Dear Customer,
+
+Thank you for your feedback on the AeroBlend 500 Blender! We're glad to hear that you find it powerful and effective at crushing ice.
+
+Regarding the noise and the slight burning smell you experienced, we want to assure you that a slight smell during the first one or two uses is normal. However, if you notice a strong burning smell after that, it may indicate a potential issue with the motor. In that case, we recommend stopping use immediately and raising a return or warranty claim.
+
+If you need assistance with this process, please let us know, and we’ll be happy to help.
+
+Thank you for choosing us!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+M04,mixed,"The TrailMate Backpack is really comfortable and has plenty of pockets, but one of the buckles was broken when it arrived yesterday. - Divya Nair",mixed,trailmate,False,"[""returns.md""]",Divya,The TrailMate Backpack,mixed,medium,Divya Nair,False,returns.md | shipping.md,one of the buckles was broken when it arrived,"Dear Divya Nair,
+
+Thank you for your feedback! We're thrilled to hear that you find the TrailMate Backpack comfortable and appreciate its ample pockets.
+
+We sincerely apologize for the inconvenience caused by the broken buckle. To resolve this issue, please report the damaged item within 48 hours of delivery and include photos of the defect. If stock is available, we will be happy to provide you with a free replacement. Otherwise, we can issue a full refund.
+
+Additionally, please note that return pickup for damaged items is free of charge. 
+
+Thank you for bringing this to our attention, and we look forward to assisting you further.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+M05,mixed,The BreezeMax Tower Fan cools the room well and looks good. Sadly the remote stopped working after about a month.,mixed,breezemax,False,"[""warranty.md""]",,BreezeMax Tower Fan,mixed,medium,,False,troubleshooting.md,remote stopped working after about a month,"Dear Customer,
+
+Thank you for your feedback! We're glad to hear that you are enjoying the BreezeMax Tower Fan's cooling capabilities and its design. 
+
+We apologize for the inconvenience you've experienced with the remote control. To address this issue, we recommend trying to reset the remote. If the remote continues to malfunction after this step, please consider filing a warranty claim for a replacement.
+
+If you need assistance with the warranty process, feel free to reach out, and we’ll be happy to help.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,True,False,True,
+M06,mixed,"The VoltCharge 20W Charger is fast and compact, which I like. I only wish it felt a bit sturdier.",mixed | positive,voltcharge,False,null,,VoltCharge 20W Charger,mixed,low,,False,troubleshooting.md | warranty.md,felt a bit sturdier,"Dear Customer,
+
+Thank you for your feedback on the VoltCharge 20W Charger! We're glad to hear that you appreciate its fast charging capabilities and compact design.
+
+We understand your concern about the sturdiness of the charger. Please note that while our products are designed for durability, we do cover hardware faults under our warranty. If you believe your charger is experiencing issues beyond normal wear and tear, we encourage you to review our warranty policy for further assistance.
+
+If you have any additional questions or need help with a warranty claim, please don't hesitate to reach out.
+
+Best regards,  
+Customer Support Team",True,True,True,,True,
+M07,mixed,"Battery life on the SoundLoop Earbuds is great and they are comfortable, but the Bluetooth connection drops now and then. - Arnav",mixed,soundloop,False,"[""troubleshooting.md""]",Arnav,SoundLoop Earbuds,mixed,low,Arnav,False,troubleshooting.md | returns.md,Bluetooth connection drops,"Dear Arnav,
+
+Thank you for your feedback! We're thrilled to hear that you find the battery life of the SoundLoop Earbuds great and that they are comfortable to wear.
+
+We understand that experiencing Bluetooth connection drops can be frustrating. To address this issue, we recommend resetting your earbuds by holding both buttons for 10 seconds and then re-pairing them with your device. If the problem persists after trying this reset, please consider filing a warranty claim for further assistance.
+
+If you have any more questions or need help with the warranty process, feel free to reach out.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+P01,positive,Absolutely love my SoundLoop Earbuds. The sound is crisp and they fit perfectly. - Meera J.,positive,soundloop,False,"[""loyalty.md""]",Meera,SoundLoop Earbuds,positive,none,Meera J.,False,loyalty.md | returns.md,,"Dear Meera J.,
+
+Thank you so much for your wonderful review of the SoundLoop Earbuds! We're thrilled to hear that you love the crisp sound and perfect fit. Your satisfaction is our top priority, and it’s great to know our product has met your expectations.
+
+As a token of our appreciation, we’d like to remind you about our Kestrel Rewards program. For every Rs. 100 you spend, you earn 1 point, and you can also earn 50 bonus points for each product review you write. These points can be redeemed for discounts on future purchases, with 100 points equating to Rs. 50 off your order.
+
+We hope you continue to enjoy your earbuds and take advantage of our rewards program in the future!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+P02,positive,The AeroBlend 500 Blender makes smoothies in seconds and is easy to clean. Great buy.,positive,aeroblend,False,"[""loyalty.md""]",,AeroBlend 500 Blender,positive,none,,False,loyalty.md | returns.md,,"Dear Valued Customer,
+
+Thank you so much for your wonderful review of the AeroBlend 500 Blender! We're thrilled to hear that you find it quick for making smoothies and easy to clean. Your satisfaction is our top priority, and it's great to know that our product is meeting your expectations.
+
+As a token of our appreciation, we want to remind you about our Kestrel Rewards program. For every Rs. 100 you spend, you earn 1 point, and you can also earn 50 bonus points for each product review you submit. These points can be redeemed for discounts on future purchases, with 100 points equating to Rs. 50 off your order.
+
+We hope you continue to enjoy your blender and take advantage of our loyalty rewards in the future!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+P03,positive,"The PixelView 27 Monitor has made working from home so much nicer. Sharp text, great colours, and it arrived a day early. - Sanjay",positive,pixelview,False,"[""loyalty.md""]",Sanjay,PixelView 27 Monitor,positive,none,Sanjay,False,loyalty.md | returns.md,,"Hi Sanjay,
+
+Thank you so much for your wonderful review! We're thrilled to hear that the PixelView 27 Monitor has enhanced your work-from-home experience with its sharp text and vibrant colors. It's also great to know that it arrived a day early!
+
+As a token of our appreciation, we want to remind you about our Kestrel Rewards program. For every Rs. 100 you spend, you earn 1 point, and you can also earn 50 bonus points for sharing your product review, just like you did. These points can be redeemed for discounts on future purchases, with 100 points equating to Rs. 50 off.
+
+We appreciate your support and look forward to serving you again!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+P04,positive,Took the TrailMate Backpack on a week-long trip and it held up brilliantly. Very comfortable even when full.,positive,trailmate,False,"[""loyalty.md""]",,TrailMate Backpack,positive,none,,False,loyalty.md | returns.md,,"Dear Valued Customer,
+
+Thank you so much for your wonderful review of the TrailMate Backpack! We're thrilled to hear that it held up brilliantly during your week-long trip and that you found it very comfortable, even when fully packed. Your feedback means a lot to us!
+
+As a token of our appreciation, we’d like to remind you about our Kestrel Rewards program. For every Rs. 100 you spend, you earn 1 point, and you can also earn 50 bonus points for each product review you submit. These points can be redeemed for discounts on future purchases, with 100 points equating to Rs. 50 off your order.
+
+We hope to see you again soon, and thank you for being a valued member of our community!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+P05,positive,"The VoltCharge 20W Charger is small, quick and has not let me down once. Would buy again. - Ishita",positive,voltcharge,False,"[""loyalty.md""]",Ishita,VoltCharge 20W Charger,positive,none,Ishita,False,loyalty.md | returns.md,,"Dear Ishita,
+
+Thank you so much for your wonderful review of the VoltCharge 20W Charger! We're thrilled to hear that you find it small, quick, and reliable. Your satisfaction is our top priority, and it’s great to know that our product has met your expectations.
+
+As a token of our appreciation, we’d like to remind you about our Kestrel Rewards program. For every Rs. 100 you spend, you earn 1 point, and you can also earn 50 bonus points for each product review you write. These points can be redeemed for discounts on future purchases, with 100 points equating to Rs. 50 off your order.
+
+We hope to see you again soon, and thank you for being a valued customer!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+P06,positive,The BreezeMax Tower Fan is quiet on the low setting and cools my bedroom nicely. Very pleased with it.,positive,breezemax,False,"[""loyalty.md""]",,BreezeMax Tower Fan,positive,none,,False,loyalty.md | returns.md,,"Dear Valued Customer,
+
+Thank you so much for your wonderful review of the BreezeMax Tower Fan! We're thrilled to hear that you find it quiet on the low setting and that it cools your bedroom nicely. Your satisfaction is our top priority!
+
+As a token of our appreciation, we want to remind you about our Kestrel Rewards program. For every Rs. 100 you spend, you earn 1 point, and you can also earn 50 bonus points for each product review you submit. These points can be redeemed for discounts on future purchases, with 100 points equating to Rs. 50 off your order.
+
+We hope you continue to enjoy your fan and take advantage of our loyalty rewards in the future!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+P07,positive,"Second pair of SoundLoop Earbuds I have bought, this time as a gift for my sister. She loves them as much as I do. - Tanvi Desai",positive,soundloop,False,"[""loyalty.md""]",Tanvi,SoundLoop Earbuds,positive,none,Tanvi Desai,False,loyalty.md | returns.md,,"Dear Tanvi Desai,
+
+Thank you so much for your wonderful review! We're thrilled to hear that both you and your sister love the SoundLoop Earbuds. It's always great to know our products are bringing joy to our customers and their loved ones.
+
+As a token of our appreciation, we want to remind you about our Kestrel Rewards program. For every Rs. 100 you spend, you earn 1 point, and you can also earn 50 bonus points for each product review you write. These points can be redeemed for discounts on future purchases, with 100 points equating to Rs. 50 off your order.
+
+We appreciate your loyalty and look forward to serving you again soon!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+S01,policy_specific,I opened my SoundLoop Earbuds three weeks ago and I just do not like how they fit. I would like to return them for a refund.,negative | mixed,soundloop,False,"[""returns.md""]",,SoundLoop Earbuds,negative,high,,True,returns.md | troubleshooting.md,fit,"Dear Customer,
+
+Thank you for your feedback regarding your SoundLoop Earbuds. We sincerely apologize that the fit of the earbuds did not meet your expectations. We understand how important comfort is when it comes to audio products.
+
+Unfortunately, since the earbuds were opened three weeks ago, they fall outside our 14-day return window for opened items due to hygiene reasons. We are unable to process a return for a refund at this time.
+
+If you are experiencing any issues with the earbuds, such as connectivity problems, please refer to our troubleshooting guide. You can reset the earbuds by holding both buttons for 10 seconds and then re-pairing them with your device. If the issues persist, you may consider filing a warranty claim.
+
+We appreciate your understanding and are here to assist you with any further questions.
+
+Best regards,  
+Customer Support Team",True,True,False,True,True,
+S02,policy_specific,My PixelView 27 Monitor was delivered five days ago with a crack across the screen. I have only just had time to report it. Please send a replacement. - Gaurav,negative,pixelview,,"[""returns.md""]",Gaurav,PixelView 27 Monitor,negative,high,Gaurav,True,returns.md | warranty.md,crack across the screen,"Dear Gaurav,
+
+Thank you for reaching out to us regarding your PixelView 27 Monitor. We sincerely apologize for the inconvenience caused by receiving a damaged item. We understand how frustrating this situation can be.
+
+As per our policy, items that are reported as damaged or defective must be reported within 48 hours of delivery, along with photos of the damage. Since it has been five days since delivery, we are unable to process a replacement for your monitor at this time.
+
+If you would like to explore other options, please ensure that you have all original accessories and packaging, as items with physical damage caused by the customer are not eligible for return. 
+
+If you have any further questions or need assistance with a warranty claim, please let us know, and we will be happy to help.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,True,,True,True,
+S03,policy_specific,"My TrailMate Backpack was dispatched 12 business days ago and has still not been delivered. Can I get my delivery fee back, or cancel the order?",negative,trailmate,,"[""shipping.md""]",,TrailMate Backpack,negative,high,,True,shipping.md | returns.md,Delayed delivery | Request for delivery fee refund | Request to cancel order,"Dear Customer,
+
+We sincerely apologize for the inconvenience you've experienced with the delivery of your TrailMate Backpack. We understand how frustrating it can be to wait longer than expected for your order.
+
+As your order has not been delivered within the 10 business days since dispatch, you are eligible for a refund of the delivery fee. Additionally, you have the option to cancel your order for a full refund. 
+
+To proceed with either the refund of the delivery fee or the cancellation of your order, please visit the My Orders page where you can initiate these requests.
+
+Thank you for your understanding, and we appreciate your patience as we work to resolve this matter.
+
+Best regards,  
+Customer Support Team",True,True,,True,True,
+S04,policy_specific,"My SoundLoop Earbuds stopped charging after I used my friend's fast charger with them. They are only four months old, so I would like a warranty replacement.",negative,soundloop,False,"[""warranty.md"", ""troubleshooting.md""]",,SoundLoop Earbuds,negative,high,,True,troubleshooting.md | returns.md,stopped charging | warranty replacement needed,"Dear Customer,
+
+Thank you for reaching out and sharing your experience with your SoundLoop Earbuds. We sincerely apologize for the inconvenience you've encountered with them not charging. 
+
+Unfortunately, our policy states that damage caused by third-party chargers is not covered under warranty. Since you mentioned using a friend's fast charger, this may have affected the charging capability of your earbuds. We recommend using the original cable and a charger rated at least 10W for optimal performance.
+
+If you continue to experience issues with your earbuds, please follow the troubleshooting steps outlined in our policy. You can reset your earbuds by holding both buttons for 10 seconds and then re-pairing them with your device. If the problem persists after this reset, you may file a warranty claim.
+
+We appreciate your understanding and are here to assist you further if needed.
+
+Best regards,  
+Customer Support Team",True,True,False,True,True,
+S05,policy_specific,"My AeroBlend 500 Blender stopped working after 14 months. It is still under warranty, and I want my money back in cash, not a repair. - Lakshmi Iyer",negative,aeroblend,,"[""warranty.md""]",Lakshmi,AeroBlend 500 Blender,negative,high,Lakshmi Iyer,True,troubleshooting.md | warranty.md | returns.md,"stopped working after 14 months | want money back in cash, not a repair","Dear Lakshmi Iyer,
+
+Thank you for reaching out and sharing your experience with your AeroBlend 500 Blender. We sincerely apologize for the inconvenience you've encountered with your blender stopping working after 14 months. We understand how frustrating this situation can be.
+
+As your blender is still under warranty, we would like to assist you with the warranty claim process. Please note that our policy states that warranty claims result in either a repair or a replacement of the product, but we are unable to provide cash refunds.
+
+To proceed, please stop using the blender if you notice any strong burning smells, as this may indicate a faulty motor. You can initiate your warranty claim by contacting our support team, and we will process your claim within 7 business days of receiving the item.
+
+Again, we apologize for the trouble this has caused, and we appreciate your understanding as we work to resolve this matter.
+
+Best regards,  
+Customer Support Team",True,True,,True,True,
+S06,policy_specific,"The BreezeMax Tower Fan works fine, but I have changed my mind and no longer need it. How do I return it, and do I have to pay for the pickup?",negative | mixed | positive,breezemax,False,"[""returns.md""]",,BreezeMax Tower Fan,mixed,medium,,False,returns.md,no longer need it | how to return it | do I have to pay for the pickup,"Dear Customer,
+
+Thank you for your feedback! We're glad to hear that the BreezeMax Tower Fan is working well for you.
+
+Regarding your request to return the fan due to a change of mind, you can certainly initiate the return process. Please note that for change-of-mind returns, a flat fee of Rs. 99 will be deducted from your refund. Additionally, you can return the item within 30 days of delivery.
+
+If you need any assistance with the return process, feel free to reach out, and we'll be happy to help!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+T01,tricky,"Oh great, another pair of earbuds that died within a week. Fantastic quality, truly. Well done.",negative,earbuds,,"[""returns.md"", ""warranty.md"", ""troubleshooting.md""]",,earbuds,negative,high,,True,troubleshooting.md | returns.md,died within a week | poor quality,"Dear Customer,
+
+We sincerely apologize for the inconvenience you've experienced with your earbuds. We understand how frustrating it can be when a product does not meet your expectations, especially so soon after purchase.
+
+To address the issue of your earbuds dying within a week, we recommend trying a reset. Please hold both buttons for 10 seconds to reset the earbuds, then re-pair them with your device. If the problem persists after this reset, we encourage you to file a warranty claim.
+
+If your earbuds are damaged or defective, please report this within 48 hours of delivery and include photos. If stock is available, we can provide a free replacement; otherwise, a full refund will be issued.
+
+Thank you for your understanding, and we appreciate your feedback as it helps us improve our products and services.
+
+Best regards,  
+Customer Support Team",True,True,,True,True,
+T02,tricky,My order arrived late and the box was crushed. Not impressed.,negative,,False,"[""shipping.md"", ""returns.md""]",,order,negative,medium,,False,returns.md | shipping.md,arrived late | box was crushed,"Dear Customer,
+
+Thank you for your feedback, and I sincerely apologize for the issues you experienced with your order. I understand how frustrating it can be to receive a late delivery and a damaged package.
+
+Regarding the late arrival of your order, I want to inform you that if your order was not delivered within 10 business days of dispatch, you are eligible for a refund of the delivery fee. Additionally, you have the option to cancel your order for a full refund if it was indeed late.
+
+For the crushed box, we ask that you report any damaged or defective items within 48 hours of delivery, along with photos of the damage. If the item is eligible, we can provide a free replacement if stock is available, or a full refund otherwise.
+
+Please let us know how you would like to proceed, and we will assist you accordingly.
+
+Thank you for your understanding.
+
+Best regards,  
+Customer Support Team",True,,True,True,True,
+T03,tricky,The Kestrel SmartKettle I bought last month has started leaking from the base. Please advise what I should do. - Imran,negative,kettle,,"[""returns.md"", ""warranty.md""]",Imran,Kestrel SmartKettle,negative,high,Imran,True,loyalty.md | troubleshooting.md,leaking from the base,"Dear Imran,
+
+We sincerely apologize for the inconvenience you've experienced with your Kestrel SmartKettle leaking from the base. We understand how frustrating this can be, and we appreciate you bringing this issue to our attention.
+
+To address the problem, we recommend that you file a warranty claim. This will allow us to assess the situation and determine the best course of action for your kettle. Please visit our warranty claims page for further instructions on how to proceed.
+
+Thank you for your understanding, and we are here to assist you through this process.
+
+Best regards,  
+Customer Support Team",True,True,,False,True,
+T04,tricky,Good.,positive,,False,"[""loyalty.md""]",,,positive,none,,False,loyalty.md | returns.md,,"Dear Valued Customer,
+
+Thank you for your positive review! We're thrilled to hear that you had a good experience with us. We appreciate your feedback and are glad that you found our service satisfactory.
+
+As a reminder, you can earn loyalty points with every purchase you make. For every Rs. 100 spent, you earn 1 point, and you can also earn 50 bonus points for each product review you submit. These points can be redeemed for discounts on future orders, with 100 points equating to Rs. 50 off.
+
+We hope you continue to enjoy shopping with us and take advantage of our Kestrel Rewards program!
+
+Best regards,  
+Customer Support Team",True,,True,True,True,
+T05,tricky,"The PixelView 27 Monitor is superb, but the VoltCharge 20W Charger I bought with it stopped working after two days.",mixed,,False,"[""warranty.md"", ""returns.md"", ""troubleshooting.md""]",,VoltCharge 20W Charger,mixed,high,,False,troubleshooting.md | returns.md | warranty.md,stopped working after two days,"Dear Customer,
+
+Thank you for your feedback! We're thrilled to hear that you are enjoying the PixelView 27 Monitor. However, we’re sorry to learn that the VoltCharge 20W Charger stopped working after just two days.
+
+To address the issue with your charger, we recommend using the original cable and ensuring that the charger is rated at least 10W, as damage from third-party chargers is not covered by our warranty. If the charger is indeed defective, please report it within 48 hours of delivery and provide photos. This will allow us to process a free replacement if stock is available, or a full refund otherwise.
+
+We appreciate your understanding and look forward to resolving this for you.
+
+Best regards,  
+Customer Support Team",True,,True,True,True,
+T06,tricky,Really happy with the AeroBlend 500 Blender. Do I get reward points for writing this review? - Pooja,positive,aeroblend,False,"[""loyalty.md""]",Pooja,AeroBlend 500 Blender,positive,none,Pooja,False,loyalty.md | returns.md,,"Dear Pooja,
+
+Thank you so much for your wonderful review of the AeroBlend 500 Blender! We're thrilled to hear that you're really happy with your purchase. 
+
+Yes, you do earn reward points for writing a review! You will receive 50 bonus points for sharing your feedback, which can be redeemed for discounts on future purchases. Just a reminder, you earn 1 point for every Rs. 100 spent, and these points can be used to get Rs. 50 off your next order once you accumulate enough.
+
+We appreciate your support and look forward to serving you again!
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
+T07,tricky,WORST DELIVERY EVER!!! My VoltCharge 20W Charger came ONE WHOLE DAY late.,negative,voltcharge,,"[""shipping.md""]",,VoltCharge 20W Charger,negative,high,,True,shipping.md | troubleshooting.md,Delivery was one day late,"Dear Customer,
+
+We sincerely apologize for the inconvenience you experienced with the late delivery of your VoltCharge 20W Charger. We understand how frustrating it can be when an order does not arrive on time.
+
+As per our policy, since your order was delivered one day late, you qualify for a refund of the delivery fee. If you would like to proceed with this, please reach out to our customer support team, and we will assist you with the refund process.
+
+Additionally, if you wish to cancel your order for a full refund, you can do so as well. Please let us know how you would like to proceed, and we will ensure that your request is handled promptly.
+
+Thank you for your understanding, and we appreciate your feedback.
+
+Best regards,  
+Customer Support Team",True,True,,True,True,
+T08,tricky,blendr is gud n strong but jar lid broke in 2 days.. pls replace asap,mixed | negative,blend,False,"[""returns.md"", ""warranty.md""]",,blendr,mixed,high,,False,troubleshooting.md | returns.md,jar lid broke,"Dear Customer,
+
+Thank you for your feedback! We're glad to hear that you find the blendr to be good and strong. However, we’re sorry to learn that the jar lid broke within just two days of use.
+
+To address this issue, please report the damaged item within 48 hours of delivery, along with photos of the broken lid. If we have stock available, we will be happy to provide you with a free replacement. If not, we can issue a full refund.
+
+We appreciate your understanding and look forward to resolving this for you quickly.
+
+Best regards,  
+Customer Support Team",True,True,True,True,True,
