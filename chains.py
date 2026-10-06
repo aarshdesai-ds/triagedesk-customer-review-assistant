@@ -1,4 +1,5 @@
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
+from langchain_anthropic import ChatAnthropic
 from langchain_core.runnables import RunnableBranch, RunnableParallel, RunnableLambda, RunnablePassthrough
 from langchain_core.prompts import load_prompt
 from langchain_chroma import Chroma
@@ -10,8 +11,7 @@ load_dotenv()
 
 negative_prompt = load_prompt("negative_prompt.json")
 
-model = ChatOpenAI(model = "gpt-4o-mini", temperature= 0)
-
+model = ChatAnthropic(model="claude-haiku-4-5-20251001", temperature=0, max_tokens=2048)
 parser = StrOutputParser()
 
 analysis_chain = analysis_prompt | model.with_structured_output(ReviewAnalysis)

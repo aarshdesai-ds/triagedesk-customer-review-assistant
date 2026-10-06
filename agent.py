@@ -1,5 +1,5 @@
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
-from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
 from dotenv import load_dotenv
 from tools import tools
 
@@ -7,13 +7,23 @@ load_dotenv()
 
 FALLBACK_STRING = "I couldn't work that out within the step limit. Please try rephrasing the question."
 
-model = ChatOpenAI(model = "gpt-4o-mini", temperature = 0)
+model = ChatAnthropic(model="claude-haiku-4-5-20251001", temperature=0, max_tokens=2048)
 
 model_with_tools = model.bind_tools(tools)
 
 MAX_ROUNDS = 5
 
 tools_by_name = {t.name: t for t in tools}
+
+def text_of(message):
+    """Return the reply as plain text, whether the model gives a string or a list of blocks."""
+    content = message.content
+    if isinstance(content, str):
+        return content
+    return "".join(
+        block.get("text", "") for block in content
+        if isinstance(block, dict) and block.get("type") == "text"
+    )
 
 SYSTEM_RULES = """You are a support assistant helping a human support agent handle one customer review. Answer the agent's questions about this case.
 
@@ -53,12 +63,13 @@ def run_agent(messages):
         messages.append(response)
 
         if not response.tool_calls:
-            claims_not_covered = NOT_COVERED_SENTENCE in response.content.lower()
+            answer = text_of(response)
+            claims_not_covered = NOT_COVERED_SENTENCE in answer.lower()
             if claims_not_covered and not tools_used and not nudged:
                 messages.append(HumanMessage(content=NUDGE_MESSAGE))
                 nudged = True
                 continue
-            return response.content, tools_used
+            return answer, tools_used
 
         for tool_call in response.tool_calls:
             tools_used.append(tool_call['name'])
