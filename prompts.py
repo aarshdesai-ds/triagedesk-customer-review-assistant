@@ -31,6 +31,26 @@ mixed_prompt = PromptTemplate(
     input_variables=['review', 'policy']
 )
 
+safety_prompt = PromptTemplate(
+    template="""Write a reply to a customer who has reported a possible safety hazard with a product (for example sparking, smoke, melting, burning, or an electric shock).
+
+Follow these rules in order:
+1. Start with "Dear <name>," using the reviewer's name if the review gives one, otherwise "Dear Customer,".
+2. The very first sentence after the greeting must tell the customer to stop using the product and unplug it now. Name the product. For example: "Please stop using your PixelView 27 Monitor and unplug it now."
+3. In the next sentence, acknowledge the hazard in the customer's own words (for example "the spark at the power port" or "the melted plug") and say that their safety comes first.
+4. Say that a member of our team will contact them directly about this.
+5. Explain the replacement or refund options using only the policy text. Do not make photos, a report, or any time limit a condition for getting help. If the policy mentions them, you may say photos would help, but only as optional.
+6. If the customer also praised something, thank them briefly, after the safety part, never before it.
+7. Do not promise compensation, refunds or anything else the policy does not state.
+8. Keep it short and calm. Sign off as Customer Support Team.
+
+The policy text may contain several help articles. Use only the parts relevant to this review.
+
+Review: {review}
+Policy: {policy}""",
+    input_variables=['review', 'policy']
+)
+
 
 followup_prompt = ChatPromptTemplate.from_messages([
     ("system","You are an expert support assistant helping an agent with this review. Please reply to the following human question and base your answers on the retrieved context. If the context doesn't contain the answer, say so. Don't guess.  \n Context: {context}"),

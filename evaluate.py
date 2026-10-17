@@ -1,12 +1,30 @@
 import json
 import csv
 from run_review import run
+from graph_nodes import HAZARD_PATTERN
+import re
 from collections import Counter
 
 PLACEHOLDER_NAMES = ["", "unknown", "anonymous", "none", "n/a", "not provided"]
 
 REVIEWS_PATH = "eval/reviews.jsonl"
-RESULTS_PATH = "eval/results_v2_hitl.csv"
+RESULTS_PATH = "eval/results_v2_safety.csv"
+
+
+STOP_PATTERN = re.compile(
+    r"\b(stop using|stop use|unplug\w*|do not use|don'?t use|discontinue use)\b",
+    re.IGNORECASE,
+)
+
+def first_sentences(reply, n=2):
+    reply = reply.strip()
+    if reply.startswith("Dear"):
+        lines = reply.split("\n", 1)
+        reply = lines[1].removeprefix("\n") if len(lines) > 1 else lines[0]
+    body = reply
+    sentences = re.split(r"(?<=[.!?])\s+", body.strip())
+    return " ".join(sentences[:n])
+
 
 rows = []
 with open(REVIEWS_PATH, encoding="utf-8") as f:
@@ -135,6 +153,14 @@ def summarise_groups(results):
         groups[row['group']].append(row)
     return groups
 
+def summarise_safety(results):
+    results = [row for row in results if not row['error']]
+    hazard_rows = [row for row in results if HAZARD_PATTERN.search(row['review'])]
+    stop_first = [row for row in hazard_rows if STOP_PATTERN.search(first_sentences(row['got_reply']))]
+    asks_48h = [row for row in hazard_rows if "48 hours" in row['got_reply']]
+
+    return {"hazard_rows": hazard_rows, "stop_first":stop_first, "asks_48h": asks_48h}
+
 def save_csv(results, path):
     if not results:
         return 
@@ -170,6 +196,7 @@ if __name__ == "__main__":
     escalation = summarise_escalate(results)
     quality = summarise_quality(results)
     paused = summarise_paused(results)
+    safety = summarise_safety(results)
     errors = [row for row in results if row["error"]]
 
     print("\nESCALATION")
@@ -187,11 +214,20 @@ if __name__ == "__main__":
     for row in paused["mismatch"]:
         print(f"  MISMATCH {row['id']}: escalate {row['got_escalate']}, review_decision {row['got_review_decision']}")
 
+
+    print("\nSAFETY REPLIES")
+    print(f"Stop instruction in first 2 sentences:  {len(safety['stop_first'])} of {len(safety['hazard_rows'])}")
+    print(f"Mentions '48 hours':                     {len(safety['asks_48h'])} of {len(safety['hazard_rows'])}")
+    for row in safety["hazard_rows"]:
+        opening = first_sentences(row["got_reply"])
+        mark = "ok  " if row in safety["stop_first"] else "MISS"
+        print(f"  {mark} {row['id']}: {opening[:110]}")
+    
     details = {
-        "sentiment": ("got_sentiment", "acceptable_sentiments"),
-        "product": ("got_product", "expected_product"),
-        "source": ("got_sources", "acceptable_sources"),
-        "reviewer": ("got_reviewer", "expected_reviewer"),
+            "sentiment": ("got_sentiment", "acceptable_sentiments"),
+            "product": ("got_product", "expected_product"),
+            "source": ("got_sources", "acceptable_sources"),
+            "reviewer": ("got_reviewer", "expected_reviewer"),
     }
     for name, (got_key, expected_key) in details.items():
         checked, hits, misses = quality[name]
@@ -199,7 +235,6 @@ if __name__ == "__main__":
         print(f"Correct:  {len(hits)} of {len(checked)} checked")
         for row in misses:
             print(f"  {row['id']}: got {row[got_key]!r}, expected {row[expected_key]!r}")
-
     print("\nNO ISSUES LISTED ON A NON-POSITIVE REVIEW")
     suspects = [row for row in results
                 if not row["error"] and row["got_sentiment"] != "positive" and not row["got_issues"]]

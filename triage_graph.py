@@ -2,9 +2,11 @@ from langgraph.graph import StateGraph, START, END
 from graph_state import TriageState
 from storage import checkpointer
 from typing import Literal
-from graph_nodes import analyze, summarize, retrieve, build_report, positive_reply, negative_reply, mixed_reply, check_escalation, supervisor_review
+from graph_nodes import analyze, summarize, retrieve, build_report, positive_reply, negative_reply, mixed_reply, check_escalation, supervisor_review, safety_reply
 
-def route_by_sentiment(state: TriageState) -> Literal['positive', 'negative', 'mixed']:
+def route_reply(state: TriageState) -> Literal["safety", 'positive', 'negative', 'mixed']:
+    if state['hazard_words']:
+        return "safety"
     return state['analysis']['sentiment']
 
 def route_after_reply(state: TriageState) -> Literal['supervisor_review', 'build_report']:
@@ -23,6 +25,7 @@ def build_graph(checkpointer = None):
     graph.add_node("positive_reply", positive_reply)
     graph.add_node("negative_reply", negative_reply)
     graph.add_node("mixed_reply", mixed_reply)
+    graph.add_node("safety_reply", safety_reply)
     graph.add_node("supervisor_review", supervisor_review)
     graph.add_node("build_report", build_report)
 
@@ -33,7 +36,8 @@ def build_graph(checkpointer = None):
     graph.add_edge("retrieve", "check_escalation")
 
 
-    graph.add_conditional_edges("check_escalation",route_by_sentiment, {
+    graph.add_conditional_edges("check_escalation",route_reply, {
+    "safety": "safety_reply",   
     "positive": "positive_reply",
     "negative": "negative_reply",
     "mixed": "mixed_reply"
@@ -53,6 +57,12 @@ def build_graph(checkpointer = None):
     "supervisor_review": "supervisor_review",
     "build_report": "build_report"
     })
+
+    graph.add_conditional_edges("safety_reply", route_after_reply,{
+        "supervisor_review": "supervisor_review",
+        "build_report": "build_report"
+    })
+    
 
     graph.add_edge("supervisor_review", "build_report")
     graph.add_edge("build_report", END)
@@ -74,6 +84,16 @@ if __name__ == "__main__":
     for escalate, want in [(True, "supervisor_review"), (False, "build_report")]:
         got = route_after_reply({"escalate": escalate})
         print(f"{'ok  ' if got == want else 'FAIL'} escalate={escalate!s:<5} -> {got}")
+    print("\n--- route_reply (free) ---")
+    for name, state, want in [
+        ("hazard + negative", {"hazard_words": ["smoke"],          "analysis": {"sentiment": "negative"}}, "safety"),
+        ("hazard + mixed",    {"hazard_words": ["electric shock"], "analysis": {"sentiment": "mixed"}},    "safety"),
+        ("hazard + positive", {"hazard_words": ["burning"],        "analysis": {"sentiment": "positive"}}, "safety"),
+        ("no hazard, mixed",  {"hazard_words": [],                 "analysis": {"sentiment": "mixed"}},    "mixed"),
+        ("no hazard, pos",    {"hazard_words": [],                 "analysis": {"sentiment": "positive"}}, "positive"),
+    ]:
+        got = route_reply(state)
+        print(f"{'ok  ' if got == want else 'FAIL'} {name:<18} -> {got}")
 
     if len(sys.argv) > 1 and sys.argv[1] == "run":
         print("\n--- Leela through the graph, pause, approve (uses the model) ---")

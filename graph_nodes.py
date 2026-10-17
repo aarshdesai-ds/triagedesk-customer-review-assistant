@@ -1,4 +1,4 @@
-from chains import analysis_chain, summary_chain, retriever, format_docs, unique_sources, positive_chain, mixed_chain, negative_chain
+from chains import analysis_chain, summary_chain, retriever, format_docs, unique_sources, positive_chain, mixed_chain, negative_chain, safety_chain
 import re
 from graph_state import TriageState
 from langgraph.types import interrupt
@@ -58,6 +58,10 @@ def negative_reply(state: TriageState):
 
 def mixed_reply(state: TriageState):
     reply = mixed_chain.invoke({"review": state['review'], "policy": state['policy']})
+    return {"reply": reply}
+
+def safety_reply(state: TriageState):
+    reply = safety_chain.invoke({"review": state['review'], "policy": state['policy']})
     return {"reply": reply}
 
 def supervisor_review(state: TriageState):
