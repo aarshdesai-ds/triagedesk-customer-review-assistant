@@ -1,5 +1,5 @@
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
-from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 from tools import tools
 
@@ -7,7 +7,7 @@ load_dotenv()
 
 FALLBACK_STRING = "I couldn't work that out within the step limit. Please try rephrasing the question."
 
-model = ChatAnthropic(model="claude-haiku-4-5-20251001", temperature=0, max_tokens=2048)
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 model_with_tools = model.bind_tools(tools)
 
@@ -87,25 +87,3 @@ def ask_detailed(question, product, review, history):
 
 def ask(question, product, review, history):
      return ask_detailed(question, product, review, history)['answer']
-
-if __name__ == "__main__":
-    product = "AeroBlend 500 blender"
-    review = ("I ordered the AeroBlend 500 blender three weeks ago. It arrived with a cracked jar "
-              "and the motor smells like burning plastic after two uses. I want my money back. - Priya S.")
-    print(ask_detailed("How much would her refund be?", product, review, []))
-    questions = [
-        "How much would her refund be?",
-        "If she had bought it 20 months ago, would it still be under warranty?",
-        "She'd take a replacement. Can we send one?",
-        "Do you have a store in Pune?",
-        "Thanks, that's all.",
-    ]
-
-    history = []
-    for number, question in enumerate(questions, start=1):
-        print(f"\n{'=' * 70}")
-        print(f"QUESTION {number}: {question}")
-        print("=" * 70)
-        answer = ask(question, product, review, history)
-        print(f"\nANSWER {number}: {answer}")
-        history.append((question, answer))
