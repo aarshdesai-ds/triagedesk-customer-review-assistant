@@ -1,6 +1,8 @@
 # TriageDesk: A Customer-Review Assistant with Measured Improvements
 
-A LangChain project that triages customer reviews for a fictional online store. A fixed pipeline analyses each review, retrieves the relevant policy, drafts a reply and flags urgent complaints for a supervisor. A tool-calling agent then answers the support agent's follow-up questions. Both parts have a labelled evaluation set, and every change to the system was measured against it, including a change of model from `gpt-4o-mini` to Claude Haiku 4.5.
+A LangChain and LangGraph project that triages customer reviews for a fictional online store. The pipeline analyses each review, retrieves the relevant policy, drafts a reply and flags urgent complaints. A tool-calling agent then answers the support agent's follow-up questions. Both parts have a labelled evaluation set, and every change to the system was measured against it, including a change of model from `gpt-4o-mini` to Claude Haiku 4.5 and back.
+
+**Version 2** rebuilds both parts as LangGraph graphs. It adds a code rule for safety hazards, a pause for a human supervisor on every escalated review, and a separate reply writer for hazard reports. See [Version 2: LangGraph](#version-2-langgraph). Everything below that section describes version 1. Its chain and agent loop are still in `chains.py` and `agent.py`, and version 2 reuses their prompts, chains and tools.
 
 *This is an independent learning project. Kestrel is a fictional store. All reviews, policies and products are synthetic and were written for this project.*
 
@@ -8,6 +10,7 @@ A LangChain project that triages customer reviews for a fictional online store. 
 
 ## Table of Contents
 
+- [Version 2: LangGraph](#version-2-langgraph)
 - [Overview](#overview)
 - [How It Works](#how-it-works)
 - [Knowledge Base](#knowledge-base)
@@ -19,6 +22,167 @@ A LangChain project that triages customer reviews for a fictional online store. 
 - [How to Run](#how-to-run)
 - [Known Limitations](#known-limitations)
 - [Ideas for Extension](#ideas-for-extension)
+
+---
+
+## Version 2: LangGraph
+
+Version 1 was a fixed LangChain chain and a hand-written agent loop. Version 2 rebuilds both as LangGraph graphs and uses the graph structure for things a chain could not do cleanly: two steps running in parallel, a rule checked in code before routing, a pause for a person, and a different reply writer for safety reports.
+
+All version 2 results use `gpt-4o-mini` at temperature 0. They are compared with the version 1 results on the same model.
+
+### The triage graph (`triage_graph.py`)
+
+```
+                       START
+                ┌────────┴────────┐
+             analyze          summarize            (run in parallel)
+                └────────┬────────┘
+                      retrieve
+                         │
+                  check_escalation                 hazard words in code, plus negative + high urgency
+                         │
+                    route_reply
+     ┌─────────────┬─────┴───────┬──────────────┐
+  hazard words  positive      negative         mixed
+     │             │             │               │
+ safety_reply  positive_reply negative_reply  mixed_reply
+     └─────────────┴──────┬──────┴───────────────┘
+                   route_after_reply
+              escalated │         │ not escalated
+                        ▼         │
+              supervisor_review   │                ⏸ pauses for a person; state saved in SQLite
+                        └────┬────┘
+                        build_report
+                             │
+                            END
+```
+
+| File | Role |
+|---|---|
+| `graph_state.py` | `TriageState`: the keys every node reads and writes |
+| `graph_nodes.py` | One function per node, and `HAZARD_PATTERN` |
+| `triage_graph.py` | The two routers and the wiring. `build_graph(checkpointer)` returns the compiled graph |
+| `storage.py` | `SqliteSaver` on `triagedesk.db`, and `config_for(review_id)` for a thread id |
+| `run_review.py` | Runs one review from the terminal and asks the supervisor when the graph pauses |
+
+The nodes reuse the version 1 prompts and chains from `chains.py`, so the analysis, retrieval and reply writing are the same as before. What changed is the order, the routing and the escalation rule.
+
+### Step 1: the escalation rule moves into code
+
+Version 1 escalated a review when the model rated it negative **and** high urgency. The held-out test showed the weakness: a hazard described calmly, or inside a happy review, was never escalated.
+
+Version 2 escalates when **either** of these is true:
+
+- **Hazard words** in the review, matched by a regular expression: spark, smoke, burn, melt, overheat, scorch, electric shock, caught fire, fire hazard, exploded. The model's opinion is not consulted.
+- **Negative sentiment and high urgency**, the version 1 rule.
+
+The report records which rule fired (`escalated_by`: `rules`, `urgency`, `both` or `none`) and which words matched.
+
+A first version escalated on high urgency alone, whatever the sentiment. That caught the same number of urgent reviews and added a false alarm on a mixed review that said "pls replace asap". Both rules were then scored on the same saved model outputs, with no new model calls, and the combined rule above was at least as good on both runs.
+
+| All 54 reviews, `gpt-4o-mini` | Version 1 | Version 2 |
+|---|---|---|
+| Urgent caught | 11 of 13 | **12 of 13** |
+| False escalations | 0 of 33 | 1 of 33 |
+| Sentiment | 51 of 54 | 51 of 54 |
+| Policy source retrieved | 39 of 41 | 39 of 41 |
+
+The gain is the electric-shock review inside a happy review (F05). It is now caught by the hazard rule whatever urgency the model gives it. The new false alarm is M03, a blender with "a slight burning smell the first time I used it". The troubleshooting policy calls this normal. It was left labelled as not needing escalation and accepted as the cost of a rule that does not trust the model on hazards.
+
+The remaining miss is F02, a double charge reported politely. It contains no hazard words, and the model rated it medium urgency.
+
+### Step 2: the follow-up agent as a graph (`agent_graph.py`)
+
+```
+START ──► call_model ──route_after_model──┬──► tools ──► call_model
+                                          ├──► nudge ──► call_model
+                                          └──► END
+```
+
+The version 1 loop became three nodes and a router. The router checks, in order:
+
+1. Five rounds reached: stop.
+2. The model asked for a tool: run it (`ToolNode`).
+3. The model said "not covered" without having used any tool, and has not been nudged yet: send the reminder.
+4. Otherwise: finish.
+
+This was a refactor, so the target was the same score, not a higher one. Both versions were run on `gpt-4o-mini` on the same day:
+
+| 24 questions, `gpt-4o-mini` | Version 1 loop | Version 2 graph |
+|---|---|---|
+| Tool selection | 21 of 21 | 21 of 21 |
+| Facts | 18 of 19 | 18 of 19 |
+| "Not covered", after checking | 2 of 3 | 2 of 3 |
+| Failed calls | 0 | 0 |
+
+The same two questions failed the same way in both. The earlier `gpt-4o-mini` run in [the agent evaluation](#evaluation-the-agent) scored 19 of 19 and 3 of 3, with no code changes in between, so those two questions vary from run to run.
+
+An earlier comparison set the graph on `gpt-4o-mini` against the version 1 Claude results. That comparison mixed two changes, and it was replaced by this one.
+
+### Step 3: a person checks every escalated reply
+
+Before step 3, an escalated review got a flag in its report, and the reply was drafted anyway. Now the graph stops at `supervisor_review` and waits:
+
+```
+⚠ ESCALATED (rules)  hazard words: spark
+Review: I love this monitor... small spark at the power port... - Leela
+Draft reply:
+  Dear Leela, ...
+Type 'approve' to send as is, or type a replacement reply:
+>
+```
+
+The node calls `interrupt()` with the hazard words and the draft. The paused state is saved in `triagedesk.db` under the review's thread id. `Command(resume=...)` on the same thread continues from the pause. "approve" keeps the draft, and anything else replaces it. The report records `review_decision` as `approved`, `edited` or `not_needed`.
+
+The evaluation answers "approve" automatically, so its scores stay comparable, and it checks that the pause happened exactly when it should:
+
+| 54 reviews | Result |
+|---|---|
+| Escalated | 14 (13 labelled, plus F10, which has no label) |
+| Paused for review | 14 of 14 |
+| Paused when not escalated, or escalated without a pause | 0 |
+| Escalation, sentiment, retrieval | Same as step 1, row by row |
+
+Reading the 14 drafts showed why the pause matters. Reviews about a melted plug, sparks and smoke, and a shattered jar got replies asking the customer to report the damage within 48 hours with photos.
+
+### Step 4: a safety reply for hazard reports
+
+Hazard reviews now go to their own reply writer, `safety_reply`, before sentiment is considered. Its prompt requires the first sentence after the greeting to tell the customer to stop using the product and unplug it. It must not make photos or a time limit a condition for getting help, and it must mention any praise only after the safety part.
+
+The check reads the first two sentences of each reply to the 5 reviews that contain hazard words:
+
+| 5 hazard reviews | Step 3 replies | Step 4 replies |
+|---|---|---|
+| Stop instruction in the first two sentences | 0 of 5 | **5 of 5** |
+| Mentions "48 hours" | 3 of 5 | **0 of 5** |
+
+Escalation, the pause counts and every other check were unchanged.
+
+Five reviews show that the branch and the prompt work. They do not measure how reliably it handles new hazard wording. All five openings are close to the example sentence in the prompt. M03's normal first-use smell now also gets "stop using it", which the supervisor can edit.
+
+### Run version 2
+
+```bash
+python run_review.py "I love this monitor, the picture is great. But yesterday I saw a small spark at the power port when I plugged it in. - Leela"
+```
+
+```bash
+python evaluate.py
+```
+
+Each file has a free test block: `python graph_nodes.py`, `python triage_graph.py`, `python agent_graph.py` and `python storage.py`. Add `run` to the first three to send one example through the model.
+
+`evaluate.py` now runs the version 2 graph and writes `eval/results_v2_safety.csv`. `evaluate_agent.py` runs the version 2 agent and writes `eval/followup_results_graph.csv`. The version 1 results files are unchanged.
+
+### What version 2 taught
+
+- **A rule the model cannot argue with belongs in code.** The hazard check does not care how calmly a review is written.
+- **Score rules on fixed outputs.** Re-applying two escalation rules to the same saved model answers compared the rules without any model variation.
+- **Check the model before calling a difference "variation".** One comparison silently compared two models. It was redone with one variable.
+- **A refactor's target is "no change".** The agent graph matched the loop question for question, which was the evidence that it was safe.
+- **A pause is only useful if it happens exactly when it should.** Counting paused rows against escalated rows turned "it seems to work" into 14 of 14 with 0 mismatches.
+- **Reading the drafts found the next step.** The supervisor pause exposed the safety replies, which a score alone would not have shown.
 
 ---
 
@@ -340,10 +504,18 @@ triagedesk-customer-review-assistant/
 ├── tools.py                # The agent's three tools
 ├── agent.py                # The tool-calling agent, with the guardrail
 ├── agent_react.py          # The earlier ReAct agent, kept for comparison
-├── main.py                 # Command-line report and follow-up chat
+├── main.py                 # Command-line report and follow-up chat (version 1)
 │
-├── evaluate.py             # Pipeline evaluation
-├── evaluate_agent.py       # Agent evaluation
+├── graph_state.py          # v2: TriageState
+├── graph_nodes.py          # v2: the triage nodes, HAZARD_PATTERN, supervisor_review
+├── triage_graph.py         # v2: routers and wiring; build_graph(checkpointer)
+├── storage.py              # v2: SqliteSaver on triagedesk.db, config_for()
+├── run_review.py           # v2: one review from the terminal, with the supervisor prompt
+├── agent_graph.py          # v2: the follow-up agent as a graph
+├── triagedesk.db           # Not committed: paused and finished review threads
+│
+├── evaluate.py             # Pipeline evaluation (now runs the v2 graph)
+├── evaluate_agent.py       # Agent evaluation (now runs the v2 agent)
 └── eval/
     ├── reviews.jsonl               # 54 labelled reviews
     ├── fresh_reviews.jsonl         # The 11 held-out reviews, before they were merged in
@@ -370,7 +542,7 @@ triagedesk-customer-review-assistant/
    python -m pip install -r requirements.txt
 ```
 
-3. Create a `.env` file in the project folder. The chat model uses the Anthropic key. The embeddings use the OpenAI key.
+3. Create a `.env` file in the project folder. The chat model and the embeddings both use the OpenAI key. The Anthropic key is only needed to rerun the Claude comparison.
 
 ```
    ANTHROPIC_API_KEY=your-key-here
@@ -396,7 +568,9 @@ triagedesk-customer-review-assistant/
    python evaluate_agent.py
 ```
 
-The project currently runs on `claude-haiku-4-5-20251001` at temperature 0, with `text-embedding-3-small` for embeddings. The earlier results in this README were produced with `gpt-4o-mini` at temperature 0. To reproduce them, replace `ChatAnthropic(...)` with `ChatOpenAI(model="gpt-4o-mini", temperature=0)` where the model is created in `chains.py` and `agent.py`.
+The project currently runs on `gpt-4o-mini` at temperature 0, with `text-embedding-3-small` for embeddings. Only the OpenAI key is needed for that. All version 2 results were produced this way. To reproduce the Claude results, replace `ChatOpenAI(...)` with `ChatAnthropic(model="claude-haiku-4-5-20251001", temperature=0, max_tokens=2048)` where the model is created in `chains.py` and `agent.py`.
+
+Version 1's evaluation scripts are in the git history. The current `evaluate.py` and `evaluate_agent.py` run version 2 and write to new files, so the version 1 results files are not overwritten.
 
 `tools.py` and `agent.py` can also be run on their own to see their checks.
 
@@ -404,7 +578,19 @@ The project currently runs on `claude-haiku-4-5-20251001` at temperature 0, with
 
 ## Known Limitations
 
-- **Escalation requires negative sentiment.** A hazard mentioned in a positive or mixed review is never escalated, whatever urgency it is given. On Claude this is the only remaining cause of a missed escalation.
+Version 2:
+
+- **Hazard words are a fixed list.** A shattered jar, a rash, or a fan toppling next to a child contain none of them. Those reviews are escalated only if the model rates them negative and high urgency, and they get an ordinary reply, not the safety reply.
+- **The hazard rule cannot tell normal from dangerous.** A slight smell on first use, which the policy calls normal, is escalated and told to stop using the product.
+- **Calm billing errors are still missed.** A double charge reported politely has no hazard words and was rated medium urgency.
+- **The safety reply was checked on 5 reviews.** Its openings follow the prompt's example sentence closely, and its wording has not been tested on new hazard reviews.
+- **The supervisor's edit is not checked.** Whatever is typed replaces the draft. Only an empty answer is refused.
+- **The automatic "approve" in the evaluation measures the pause, not the supervisor.** The scores are those of the drafts, unchanged.
+- **The version 2 results are one run each,** on `gpt-4o-mini`. The agent's two failing questions changed between runs with no code change.
+
+Version 1 (unchanged where version 2 does not replace it):
+
+- **Escalation requires negative sentiment.** A hazard mentioned in a positive or mixed review is never escalated, whatever urgency it is given. On Claude this is the only remaining cause of a missed escalation. *Version 2 adds the hazard rule, which catches this case when the review contains a hazard word.*
 - **Serious events described calmly are under-rated by `gpt-4o-mini`.** Two of five held-out urgent reviews were missed for this reason. Claude rated both as high urgency, in one run.
 - **The "not covered" guardrail only checks that some tool was used.** One catalog lookup is enough to pass it, even when the answer is in the policies. Claude gave one false "not covered" answer this way.
 - **An empty final answer is returned as it is.** On one question Claude used the right tools and then replied with no text, and the loop returned an empty string. The cause has not been confirmed.
@@ -425,8 +611,8 @@ The project currently runs on `claude-haiku-4-5-20251001` at temperature 0, with
 1. **Handle an empty final answer in the loop.** Ask once for a final answer when the reply has no text, and measure the effect on both models.
 2. **Require a policy search before "not covered".** Reject that answer unless `search_policies` was called, and confirm it fixes the early stop on Claude without lowering the `gpt-4o-mini` score.
 3. **Find the cause of the delivery-area miss.** Read what `search_policies` returned for each model's search phrase, to tell a retrieval miss from a reasoning miss.
-4. **Escalate on high urgency whatever the sentiment,** and measure the effect on both review sets. One mixed, high-urgency review is labelled as not needing escalation, so this may trade a miss for a false alarm.
-5. **A rule layer for escalation.** Fixed phrases for hazards and payment errors, combined with the model's rating by "or", so that a calm description cannot lower the result.
+4. **Escalate on high urgency whatever the sentiment.** *Tried in version 2: same catches, one extra false alarm. Replaced by the hazard rule.*
+5. **A rule layer for escalation.** *Done in version 2 for hazards.* Payment errors ("charged twice", "double charge") are the remaining case.
 6. **A grounding check for replies.** A second chain with structured output that lists any claim in a reply the retrieved policy does not support, checked against a hand-read sample before its numbers are trusted.
 7. **A held-out question set for the agent,** with mixed questions, products outside the catalog and calculations phrased in words.
 8. **Repeat each run several times on each model** to measure how much the scores vary without any change.

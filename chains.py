@@ -1,17 +1,16 @@
-from langchain_openai import OpenAIEmbeddings
-from langchain_anthropic import ChatAnthropic
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.runnables import RunnableBranch, RunnableParallel, RunnableLambda, RunnablePassthrough
 from langchain_core.prompts import load_prompt
 from langchain_chroma import Chroma
 from langchain_core.output_parsers import StrOutputParser
-from prompts import analysis_prompt, summary_prompt, positive_prompt, mixed_prompt, followup_prompt
+from prompts import analysis_prompt, summary_prompt, positive_prompt, mixed_prompt, followup_prompt, safety_prompt
 from dotenv import load_dotenv
 from schemas import ReviewAnalysis
 load_dotenv()
 
 negative_prompt = load_prompt("negative_prompt.json")
 
-model = ChatAnthropic(model="claude-haiku-4-5-20251001", temperature=0, max_tokens=2048)
+model = ChatOpenAI(model="gpt-4o-mini", temperature = 0)
 parser = StrOutputParser()
 
 analysis_chain = analysis_prompt | model.with_structured_output(ReviewAnalysis)
@@ -71,10 +70,12 @@ def add_context(x):
 
 add_context_chain = RunnableLambda(add_context)
 
+
+
 positive_chain = positive_prompt | model | parser
 negative_chain = negative_prompt | model | parser
 mixed_chain = mixed_prompt | model | parser
-
+safety_chain = safety_prompt | model | parser
 
 branch_chain = RunnableBranch(
     (lambda x: x['analysis'].sentiment == "positive", positive_chain),
@@ -133,11 +134,4 @@ build_followup_context = RunnableParallel({
 })
 
 followup_chain = build_followup_context | followup_prompt | model | parser
-if __name__ == "__main__":
-    review = "I ordered the AeroBlend 500 blender three weeks ago. It arrived with a cracked jar and the motor smells like burning plastic after two uses. I want my money back. - Priya S."
-    report = final_chain.invoke({"review": review})
-    print(followup_chain.invoke({
-    "question": "Do you have a store in Pune?",
-    "product": "AeroBlend 500 blender",
-    "chat_history": [],
-}))
+

@@ -1,12 +1,30 @@
 import json
 import csv
-from chains import final_chain
+from run_review import run
+from graph_nodes import HAZARD_PATTERN
+import re
 from collections import Counter
 
 PLACEHOLDER_NAMES = ["", "unknown", "anonymous", "none", "n/a", "not provided"]
 
 REVIEWS_PATH = "eval/reviews.jsonl"
-RESULTS_PATH = "eval/results.csv"
+RESULTS_PATH = "eval/results_v2_safety.csv"
+
+
+STOP_PATTERN = re.compile(
+    r"\b(stop using|stop use|unplug\w*|do not use|don'?t use|discontinue use)\b",
+    re.IGNORECASE,
+)
+
+def first_sentences(reply, n=2):
+    reply = reply.strip()
+    if reply.startswith("Dear"):
+        lines = reply.split("\n", 1)
+        reply = lines[1].removeprefix("\n") if len(lines) > 1 else lines[0]
+    body = reply
+    sentences = re.split(r"(?<=[.!?])\s+", body.strip())
+    return " ".join(sentences[:n])
+
 
 rows = []
 with open(REVIEWS_PATH, encoding="utf-8") as f:
@@ -24,6 +42,7 @@ def evaluate_row(row):
               "got_sources":[],
               "got_issues": [],
               "got_reply": "",
+              "got_review_decision":"",
               "sentiment_ok": None,
               "product_ok": None,
               "escalate_ok": None,
@@ -31,7 +50,7 @@ def evaluate_row(row):
               "reviewer_ok": None,
               "error": ""}
     try:
-        report = final_chain.invoke({"review":row['review']})
+        report = run(row['review'], auto_answer="approve")
         product = report['product'] or ""
         sentiment = report['sentiment']
         urgency = report['urgency']
@@ -78,6 +97,7 @@ def evaluate_row(row):
         result['got_sources'] = sources
         result['got_issues'] = issues
         result['got_reply'] = reply
+        result['got_review_decision'] = report['review_decision']
         result['product_ok'] = product_ok
         result['sentiment_ok'] = sentiment_ok
         result['escalate_ok'] = escalate_ok
@@ -102,6 +122,14 @@ def summarise_escalate(results):
 
     return {"caught":caught, "missed":missed, "false_alarms":false_alarms, "correct":correct, "should_escalate":should_escalate, "should_not_escalate":should_not_escalate}
 
+def summarise_paused(results):
+    results = [row for row in results if not row['error']]
+    escalated = [row for row in results if row['got_escalate']]
+    paused = [row for row in results if row['got_review_decision'] == "approved"]
+    mismatch = [row for row in results if (row['got_escalate'] == True) != (row['got_review_decision'] == "approved")]
+    return {"escalated": escalated, "paused": paused, "mismatch": mismatch}
+
+
 def split(results, key):
     results = [row for row in results if not row['error']]
     checked = [row for row in results if row[key] is not None]
@@ -125,6 +153,14 @@ def summarise_groups(results):
         groups[row['group']].append(row)
     return groups
 
+def summarise_safety(results):
+    results = [row for row in results if not row['error']]
+    hazard_rows = [row for row in results if HAZARD_PATTERN.search(row['review'])]
+    stop_first = [row for row in hazard_rows if STOP_PATTERN.search(first_sentences(row['got_reply']))]
+    asks_48h = [row for row in hazard_rows if "48 hours" in row['got_reply']]
+
+    return {"hazard_rows": hazard_rows, "stop_first":stop_first, "asks_48h": asks_48h}
+
 def save_csv(results, path):
     if not results:
         return 
@@ -136,7 +172,6 @@ def save_csv(results, path):
         writer = csv.DictWriter(f = f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(csv_rows)
-
 
 if __name__ == "__main__":
     print(f"Loaded {len(rows)} reviews")
@@ -153,13 +188,15 @@ if __name__ == "__main__":
                       result["source_ok"], result["reviewer_ok"]]
             status = "FAIL" if False in checks else "PASS"
         print(f"[{number}/{len(rows_to_run)}] {result['id']}  {result['group']:<18} {status}  "
-              f"({result['got_sentiment']}, urgency {result['got_urgency']})")
+              f"({result['got_sentiment']}, urgency {result['got_urgency']}, {result['got_review_decision']})")
 
     save_csv(results, RESULTS_PATH)
     print(f"\nSaved {len(results)} rows to {RESULTS_PATH}")
 
     escalation = summarise_escalate(results)
     quality = summarise_quality(results)
+    paused = summarise_paused(results)
+    safety = summarise_safety(results)
     errors = [row for row in results if row["error"]]
 
     print("\nESCALATION")
@@ -171,11 +208,26 @@ if __name__ == "__main__":
     for row in escalation["false_alarms"]:
         print(f"  FALSE ALARM {row['id']} (sentiment {row['got_sentiment']}, urgency {row['got_urgency']})")
 
+    print("\nHUMAN REVIEW")
+    print(f"Paused:    {len(paused['paused'])} of {len(paused['escalated'])} escalated")
+    print(f"Mismatch:  {len(paused['mismatch'])}")
+    for row in paused["mismatch"]:
+        print(f"  MISMATCH {row['id']}: escalate {row['got_escalate']}, review_decision {row['got_review_decision']}")
+
+
+    print("\nSAFETY REPLIES")
+    print(f"Stop instruction in first 2 sentences:  {len(safety['stop_first'])} of {len(safety['hazard_rows'])}")
+    print(f"Mentions '48 hours':                     {len(safety['asks_48h'])} of {len(safety['hazard_rows'])}")
+    for row in safety["hazard_rows"]:
+        opening = first_sentences(row["got_reply"])
+        mark = "ok  " if row in safety["stop_first"] else "MISS"
+        print(f"  {mark} {row['id']}: {opening[:110]}")
+    
     details = {
-        "sentiment": ("got_sentiment", "acceptable_sentiments"),
-        "product": ("got_product", "expected_product"),
-        "source": ("got_sources", "acceptable_sources"),
-        "reviewer": ("got_reviewer", "expected_reviewer"),
+            "sentiment": ("got_sentiment", "acceptable_sentiments"),
+            "product": ("got_product", "expected_product"),
+            "source": ("got_sources", "acceptable_sources"),
+            "reviewer": ("got_reviewer", "expected_reviewer"),
     }
     for name, (got_key, expected_key) in details.items():
         checked, hits, misses = quality[name]
@@ -183,7 +235,6 @@ if __name__ == "__main__":
         print(f"Correct:  {len(hits)} of {len(checked)} checked")
         for row in misses:
             print(f"  {row['id']}: got {row[got_key]!r}, expected {row[expected_key]!r}")
-    
     print("\nNO ISSUES LISTED ON A NON-POSITIVE REVIEW")
     suspects = [row for row in results
                 if not row["error"] and row["got_sentiment"] != "positive" and not row["got_issues"]]

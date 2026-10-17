@@ -1,7 +1,6 @@
 import json
 import csv
-import re
-from agent import ask_detailed
+from agent_graph import ask_detailed
 
 NOT_COVERED_SENTENCE = "the knowledge base does not cover this"
 
@@ -110,8 +109,8 @@ if __name__ == "__main__":
             status = "FAIL" if False in checks else "PASS"
         print(f"[{number}/{len(rows_to_run)}] {result['id']}  {result['group']:<12} {status}  {result['tools_used']}")
 
-    save_csv(results, "eval/followup_results.csv")
-    print(f"\nSaved {len(results)} rows to eval/followup_results.csv")
+    save_csv(results, "eval/followup_results_graph.csv")
+    print(f"\nSaved {len(results)} rows to eval/followup_results_graph.csv")
 
     summary = summarise_results(results)
     errors = [row for row in results if row["error"]]
