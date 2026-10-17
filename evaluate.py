@@ -1,12 +1,12 @@
 import json
 import csv
-from chains import final_chain
+from triage_graph import workflow
 from collections import Counter
 
 PLACEHOLDER_NAMES = ["", "unknown", "anonymous", "none", "n/a", "not provided"]
 
 REVIEWS_PATH = "eval/reviews.jsonl"
-RESULTS_PATH = "eval/results.csv"
+RESULTS_PATH = "eval/results_v2_ruleB.csv"
 
 rows = []
 with open(REVIEWS_PATH, encoding="utf-8") as f:
@@ -31,7 +31,7 @@ def evaluate_row(row):
               "reviewer_ok": None,
               "error": ""}
     try:
-        report = final_chain.invoke({"review":row['review']})
+        report = workflow.invoke({"review":row['review']})['report']
         product = report['product'] or ""
         sentiment = report['sentiment']
         urgency = report['urgency']
