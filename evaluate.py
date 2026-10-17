@@ -1,12 +1,12 @@
 import json
 import csv
-from triage_graph import workflow
+from run_review import run
 from collections import Counter
 
 PLACEHOLDER_NAMES = ["", "unknown", "anonymous", "none", "n/a", "not provided"]
 
 REVIEWS_PATH = "eval/reviews.jsonl"
-RESULTS_PATH = "eval/results_v2_ruleB.csv"
+RESULTS_PATH = "eval/results_v2_hitl.csv"
 
 rows = []
 with open(REVIEWS_PATH, encoding="utf-8") as f:
@@ -24,6 +24,7 @@ def evaluate_row(row):
               "got_sources":[],
               "got_issues": [],
               "got_reply": "",
+              "got_review_decision":"",
               "sentiment_ok": None,
               "product_ok": None,
               "escalate_ok": None,
@@ -31,7 +32,7 @@ def evaluate_row(row):
               "reviewer_ok": None,
               "error": ""}
     try:
-        report = workflow.invoke({"review":row['review']})['report']
+        report = run(row['review'], auto_answer="approve")
         product = report['product'] or ""
         sentiment = report['sentiment']
         urgency = report['urgency']
@@ -78,6 +79,7 @@ def evaluate_row(row):
         result['got_sources'] = sources
         result['got_issues'] = issues
         result['got_reply'] = reply
+        result['got_review_decision'] = report['review_decision']
         result['product_ok'] = product_ok
         result['sentiment_ok'] = sentiment_ok
         result['escalate_ok'] = escalate_ok
@@ -101,6 +103,14 @@ def summarise_escalate(results):
     should_not_escalate = len(false_alarms) + len(correct)
 
     return {"caught":caught, "missed":missed, "false_alarms":false_alarms, "correct":correct, "should_escalate":should_escalate, "should_not_escalate":should_not_escalate}
+
+def summarise_paused(results):
+    results = [row for row in results if not row['error']]
+    escalated = [row for row in results if row['got_escalate']]
+    paused = [row for row in results if row['got_review_decision'] == "approved"]
+    mismatch = [row for row in results if (row['got_escalate'] == True) != (row['got_review_decision'] == "approved")]
+    return {"escalated": escalated, "paused": paused, "mismatch": mismatch}
+
 
 def split(results, key):
     results = [row for row in results if not row['error']]
@@ -137,7 +147,6 @@ def save_csv(results, path):
         writer.writeheader()
         writer.writerows(csv_rows)
 
-
 if __name__ == "__main__":
     print(f"Loaded {len(rows)} reviews")
     rows_to_run = rows
@@ -153,13 +162,14 @@ if __name__ == "__main__":
                       result["source_ok"], result["reviewer_ok"]]
             status = "FAIL" if False in checks else "PASS"
         print(f"[{number}/{len(rows_to_run)}] {result['id']}  {result['group']:<18} {status}  "
-              f"({result['got_sentiment']}, urgency {result['got_urgency']})")
+              f"({result['got_sentiment']}, urgency {result['got_urgency']}, {result['got_review_decision']})")
 
     save_csv(results, RESULTS_PATH)
     print(f"\nSaved {len(results)} rows to {RESULTS_PATH}")
 
     escalation = summarise_escalate(results)
     quality = summarise_quality(results)
+    paused = summarise_paused(results)
     errors = [row for row in results if row["error"]]
 
     print("\nESCALATION")
@@ -170,6 +180,12 @@ if __name__ == "__main__":
         print(f"\n  MISSED {row['id']} (sentiment {row['got_sentiment']}, urgency {row['got_urgency']}): {row['review']}")
     for row in escalation["false_alarms"]:
         print(f"  FALSE ALARM {row['id']} (sentiment {row['got_sentiment']}, urgency {row['got_urgency']})")
+
+    print("\nHUMAN REVIEW")
+    print(f"Paused:    {len(paused['paused'])} of {len(paused['escalated'])} escalated")
+    print(f"Mismatch:  {len(paused['mismatch'])}")
+    for row in paused["mismatch"]:
+        print(f"  MISMATCH {row['id']}: escalate {row['got_escalate']}, review_decision {row['got_review_decision']}")
 
     details = {
         "sentiment": ("got_sentiment", "acceptable_sentiments"),
@@ -183,7 +199,7 @@ if __name__ == "__main__":
         print(f"Correct:  {len(hits)} of {len(checked)} checked")
         for row in misses:
             print(f"  {row['id']}: got {row[got_key]!r}, expected {row[expected_key]!r}")
-    
+
     print("\nNO ISSUES LISTED ON A NON-POSITIVE REVIEW")
     suspects = [row for row in results
                 if not row["error"] and row["got_sentiment"] != "positive" and not row["got_issues"]]

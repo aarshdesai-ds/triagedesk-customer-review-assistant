@@ -1,6 +1,7 @@
 from chains import analysis_chain, summary_chain, retriever, format_docs, unique_sources, positive_chain, mixed_chain, negative_chain
 import re
 from graph_state import TriageState
+from langgraph.types import interrupt
 
 HAZARD_PATTERN = re.compile(
     r"\b(spark\w*|smok\w*|burn\w*|melt\w*|overheat\w*|scorch\w*|electric shock|shocked"
@@ -59,6 +60,15 @@ def mixed_reply(state: TriageState):
     reply = mixed_chain.invoke({"review": state['review'], "policy": state['policy']})
     return {"reply": reply}
 
+def supervisor_review(state: TriageState):
+    payload = {'review': state['review'], "escalated_by": state['escalated_by'], "hazard_words":state['hazard_words'], "draft": state["reply"]}
+    answer = interrupt(payload).strip()
+    if answer.lower() == "approve":
+        return {"review_decision": "approved"}
+    else:
+        return {'reply': answer, "review_decision":"edited"}
+
+
 def build_report(state: TriageState):
     analysis = state['analysis']
     review = state['review']
@@ -75,8 +85,9 @@ def build_report(state: TriageState):
     escalate = state['escalate']
     escalated_by = state['escalated_by']
     hazard_words = state['hazard_words']
+    review_decision = state.get("review_decision", "not_needed")
 
-    report = {"review": review, "product":product, "sentiment":sentiment, "urgency": urgency, "issues":issues, "reviewer": reviewer, "summary": summary, "policy": policy, "sources": sources, "reply": reply, "reply_word_count": reply_word_count, "escalate": escalate, "escalated_by": escalated_by, "hazard_words": hazard_words}
+    report = {"review": review, "product":product, "sentiment":sentiment, "urgency": urgency, "issues":issues, "reviewer": reviewer, "summary": summary, "policy": policy, "sources": sources, "reply": reply, "reply_word_count": reply_word_count, "escalate": escalate, "escalated_by": escalated_by, "hazard_words": hazard_words, "review_decision": review_decision}
     return {"report": report}
 
 if __name__ == "__main__":
@@ -96,7 +107,37 @@ if __name__ == "__main__":
         out = check_escalation(state)
         ok = out["escalate"] == want_escalate and out["escalated_by"] == want_by
         print(f"{'ok  ' if ok else 'FAIL'} {sentiment:<8} {urgency:<6} -> {out}")
+    print("\n--- supervisor_review (free, tiny graph) ---")
+    from langgraph.graph import StateGraph, START, END
+    from langgraph.checkpoint.memory import InMemorySaver
+    from langgraph.types import Command
+    from graph_state import TriageState
 
+    mini = StateGraph(TriageState)
+    mini.add_node("supervisor_review", supervisor_review)
+    mini.add_edge(START, "supervisor_review")
+    mini.add_edge("supervisor_review", END)
+    mini_graph = mini.compile(checkpointer=InMemorySaver())
+
+    start = {"review": "spark at the power port", "escalated_by": "rules",
+             "hazard_words": ["spark"], "reply": "Please send photos."}
+    for thread, answer, want_decision, want_reply in [
+        ("t-approve", " Approve ", "approved", "Please send photos."),
+        ("t-edit", "Please stop using it.", "edited", "Please stop using it."),
+    ]:
+        config = {"configurable": {"thread_id": thread}}
+        paused = mini_graph.invoke(start, config=config)
+        payload = paused["__interrupt__"][0].value
+        done = mini_graph.invoke(Command(resume=answer), config=config)
+        ok = done["review_decision"] == want_decision and done["reply"] == want_reply
+        print(f"{'ok  ' if ok else 'FAIL'} {thread:<10} payload words {payload['hazard_words']} -> "
+              f"{done['review_decision']}, reply {done['reply']!r}")
+
+    print("\n--- build_report default (free) ---")
+    base = {"review": "x", "analysis": {"product": "p", "sentiment": "positive", "urgency": "none",
+            "issues": [], "reviewer": ""}, "summary": "", "policy": "", "sources": [], "reply": "Thanks!",
+            "escalate": False, "escalated_by": "none", "hazard_words": []}
+    print("ok  " if build_report(base)["report"]["review_decision"] == "not_needed" else "FAIL", "missing key -> not_needed")
     if len(sys.argv) > 1 and sys.argv[1] == "run":
         print("--- one review through the nodes (uses the model) ---")
         state = {"review": "I love this monitor, the picture is great. But yesterday I saw a "
