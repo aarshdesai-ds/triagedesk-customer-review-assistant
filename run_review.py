@@ -46,7 +46,6 @@ if __name__ == "__main__":
         review = " ".join(sys.argv[1:])
     else:
         review = input("Paste the review: ").strip()
-
     report = run(review)
     print("\n--- report ---")
     print_report(report)

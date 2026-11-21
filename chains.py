@@ -3,12 +3,10 @@ from langchain_core.runnables import RunnableBranch, RunnableParallel, RunnableL
 from langchain_core.prompts import load_prompt
 from langchain_chroma import Chroma
 from langchain_core.output_parsers import StrOutputParser
-from prompts import analysis_prompt, summary_prompt, positive_prompt, mixed_prompt, followup_prompt, safety_prompt
+from prompts import analysis_prompt, summary_prompt, positive_prompt, negative_prompt, mixed_prompt, followup_prompt, safety_prompt
 from dotenv import load_dotenv
 from schemas import ReviewAnalysis
 load_dotenv()
-
-negative_prompt = load_prompt("negative_prompt.json")
 
 model = ChatOpenAI(model="gpt-4o-mini", temperature = 0)
 parser = StrOutputParser()

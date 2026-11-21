@@ -18,4 +18,4 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-triagedesk.db
+triagedesk.db*

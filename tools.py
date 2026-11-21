@@ -32,9 +32,6 @@ def search_policies(query: str) -> str:
         pieces.append(f"[source]: {doc.metadata['source']}\n{doc.page_content}")
     return "\n\n".join(pieces)
    
-
-
-
 @tool
 def lookup_product(product_name: str) -> str:
     """Returns exact catalog facts for one product: category, price, warranty length in months, and whether it is in stock.
@@ -77,28 +74,3 @@ def calculate(expression: str) -> str:
     return str(result)
 
 tools = [search_policies, lookup_product, calculate]
-
-        
-if __name__ == "__main__":
-    for t in [search_policies, lookup_product]:
-        print(f"name:        {t.name}")
-        print(f"description: {t.description}")
-        print(f"args:        {t.args}")
-        print()
-
-    print("--- search_policies ---")
-    print(search_policies.invoke("opened earbuds return"))
-
-    print("\n--- lookup_product ---")
-    print(lookup_product.invoke("aeroblend"))
-    print(lookup_product.invoke("\"AeroBlend 500\""))
-    print(lookup_product.invoke("toaster"))
-    print(lookup_product.invoke(""))
-
-    print("\n--- calculate ---")
-    print(calculate.invoke("24 - 20"))
-    print(calculate.invoke("3999 * 0.1"))
-    print(calculate.invoke("5 / 0"))
-    print(calculate.invoke("import os"))
-
-

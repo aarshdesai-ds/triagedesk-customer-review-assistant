@@ -34,25 +34,3 @@ def ask_detailed(question, product, review, history):
 
 def ask(question, product, review, history):
     return ask_detailed(question, product, review, history)['answer']
-
-if __name__ == "__main__":
-    product = "AeroBlend 500 blender"
-    review = ("I ordered the AeroBlend 500 blender three weeks ago. It arrived with a cracked jar "
-              "and the motor smells like burning plastic after two uses. I want my money back. - Priya S.")
-    print(ask_detailed("How much would her refund be?", product, review, []))
-    questions = [
-        "How much would her refund be?",
-        "If she had bought it 20 months ago, would it still be under warranty?",
-        "She'd take a replacement. Can we send one?",
-        "Do you have a store in Pune?",
-        "Thanks, that's all.",
-    ]
-
-    history = []
-    for number, question in enumerate(questions, start=1):
-        print(f"\n{'=' * 70}")
-        print(f"QUESTION {number}: {question}")
-        print("=" * 70)
-        answer = ask(question, product, review, history)
-        print(f"\nANSWER {number}: {answer}")
-        history.append((question, answer))

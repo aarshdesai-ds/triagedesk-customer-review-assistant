@@ -98,16 +98,3 @@ Question: {input}
 Thought:{agent_scratchpad}"""
 
 react_prompt = PromptTemplate.from_template(react_template)
-
-if __name__ == "__main__":
-    negative_prompt.save("negative_prompt.json")
-    print(react_prompt.input_variables)
-    print(react_prompt.format(
-        tools="(tool descriptions go here)",
-        tool_names="search_policies, lookup_product, calculate",
-        product="AeroBlend 500 blender",
-        review="It arrived with a cracked jar. I want my money back. - Priya S.",
-        chat_history="(none yet)",
-        input="How much would her refund be?",
-        agent_scratchpad="",
-    ))
