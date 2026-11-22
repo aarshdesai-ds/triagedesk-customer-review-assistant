@@ -68,8 +68,6 @@ def add_context(x):
 
 add_context_chain = RunnableLambda(add_context)
 
-
-
 positive_chain = positive_prompt | model | parser
 negative_chain = negative_prompt | model | parser
 mixed_chain = mixed_prompt | model | parser
@@ -132,4 +130,3 @@ build_followup_context = RunnableParallel({
 })
 
 followup_chain = build_followup_context | followup_prompt | model | parser
-

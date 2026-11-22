@@ -32,7 +32,6 @@ def print_report(report):
 review_text = input("Agent: Please enter the customer review: \n")
 report = final_chain.invoke({"review":review_text})    
 print_report(report)
-final_chain.get_graph().print_ascii()
 
 product = report['product']
 review = report['review']

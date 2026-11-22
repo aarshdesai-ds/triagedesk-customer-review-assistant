@@ -86,4 +86,4 @@ def ask_detailed(question, product, review, history):
     return {"answer":answer, "tools_used":tools_used}
 
 def ask(question, product, review, history):
-     return ask_detailed(question, product, review, history)['answer']
+    return ask_detailed(question, product, review, history)['answer']

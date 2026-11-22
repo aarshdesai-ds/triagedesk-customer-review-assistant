@@ -10,6 +10,7 @@ kb_db/
 
 # Python cache
 __pycache__/
+.pytest_cache/
 *.pyc
 
 # Editor and OS files

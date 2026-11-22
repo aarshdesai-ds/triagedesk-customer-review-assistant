@@ -18,6 +18,3 @@ class ReviewAnalysis(BaseModel):
         "Strong or angry wording does not by itself make a review 'high'; judge by what happened, not by the tone."
     ))    
     reviewer: Optional[str] = Field(default=None, description="The name of the person who is making the review")
-
-
-
