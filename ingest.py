@@ -59,7 +59,4 @@ if __name__ == "__main__":
     print("Markdown chunks:", len(markdown_chunks))
     print("Catalog rows:", len(catalog_docs))
     print("Total in store:", len(store.get()["ids"]))
-    print(docs[0].page_content, docs[0].metadata)
-    for d in store.similarity_search("opened earbuds return", k=2):
-        print(d.metadata["source"], "|", d.page_content[:70])
     
