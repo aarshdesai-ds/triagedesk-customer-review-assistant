@@ -59,4 +59,3 @@ if __name__ == "__main__":
     print("Markdown chunks:", len(markdown_chunks))
     print("Catalog rows:", len(catalog_docs))
     print("Total in store:", len(store.get()["ids"]))
-    
